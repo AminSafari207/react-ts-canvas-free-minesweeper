@@ -4,6 +4,10 @@ A modern, canvas‑free implementation of the classic **Minesweeper** game built
 
 The project prioritizes **clarity, correctness, and maintainable UI architecture** over premature optimization or flashy abstractions. It is designed as a real frontend codebase, not a demo or tutorial, this codebase is meant to be read.
 
+You can play the game without cloning the repo:
+
+https://react-ts-canvas-free-minesweeper.vercel.app/
+
 ---
 
 ## Tech Stack
@@ -108,7 +112,6 @@ App runs at `http://localhost:5502`
 ---
 
 ## License
-
 
 This project is licensed under the MIT License.  
 See the [LICENSE](./LICENSE) file for details.
