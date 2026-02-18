@@ -1,0 +1,7 @@
+# Dirs
+node_modules
+locales
+out
+
+# Files
+.env

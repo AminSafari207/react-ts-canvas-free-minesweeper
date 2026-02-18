@@ -1,0 +1,1 @@
+export { GlassyPaper } from './GlassyPaper'
