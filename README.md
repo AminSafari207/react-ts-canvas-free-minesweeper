@@ -8,6 +8,8 @@ You can play the game without cloning the repo:
 
 https://react-ts-canvas-free-minesweeper.vercel.app/
 
+Installable as a PWA for offline play and home‑screen access.
+
 ---
 
 ## Tech Stack
