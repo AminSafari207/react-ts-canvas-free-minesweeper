@@ -51,17 +51,16 @@ export default defineConfig({
       workbox: {
         skipWaiting: true,
         clientsClaim: true,
+        cleanupOutdatedCaches: true,
+        navigateFallback: '/index.html',
         globPatterns: ['**/*.{js,css,html,ico,png,svg,webmanifest,woff,woff2}'],
         runtimeCaching: [
           {
-            urlPattern: ({ request, url }) => request.destination === 'font' || url.pathname.startsWith('/assets/'),
+            urlPattern: ({ request }) => request.destination === 'font',
             handler: 'CacheFirst',
             options: {
-              cacheName: 'fonts',
-              expiration: {
-                maxEntries: 100,
-                maxAgeSeconds: 60 * 60 * 24 * 365,
-              },
+              cacheName: 'font-cache',
+              expiration: { maxEntries: 100, maxAgeSeconds: 60 * 60 * 24 * 365 },
             },
           },
         ],
