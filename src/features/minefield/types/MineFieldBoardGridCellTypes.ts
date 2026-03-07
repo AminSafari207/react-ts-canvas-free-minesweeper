@@ -1,4 +1,5 @@
 import { MineCounterValue } from 'src/core/game'
+import { CellClickHandler } from './createHandleSelectCellTypes'
 import { LongPressHanlders } from './useCellLongPressTypes'
 
 export type GetMineCounterColor = (value: MineCounterValue | null) => string
@@ -14,7 +15,7 @@ export interface CellBoxProps {
 }
 
 export interface NonSelectedCellProps {
-  onClick: () => void
+  onClick: CellClickHandler
   onContextMenu: (e: React.MouseEvent<HTMLButtonElement>) => void
   longPressHandlers: LongPressHanlders
   isFlagged: boolean
