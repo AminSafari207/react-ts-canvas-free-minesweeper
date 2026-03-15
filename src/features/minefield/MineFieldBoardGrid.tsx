@@ -62,14 +62,14 @@ export default function MineFieldBoardGrid({ rowCount, colCount, gameStatus }: M
 
   return (
     <GlassyPaper
-      sx={(theme) => ({
+      sx={{
         minWidth: 'fit-content',
         p: 0,
         overflow: 'hidden',
-        bgcolor: theme.palette.mode === 'dark' ? '#525252ff' : '#aeaeaeff',
+        bgcolor: mode === 'dark' ? '#aeaeaeff' : '#525252ff',
         pointerEvents: gameStatus !== GameStatus.PLAYING ? 'none' : 'auto',
         border: `0.75rem ridge ${alpha(mode === 'dark' ? '#585858ff' : '#6f6f6fff', 0.9)}`,
-      })}
+      }}
       onContextMenu={(e) => e.preventDefault()}
     >
       {renderRows}

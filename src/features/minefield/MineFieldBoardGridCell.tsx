@@ -2,13 +2,13 @@ import { Box, IconButton, styled, Typography } from '@mui/material'
 import { memo, useCallback, useMemo } from 'react'
 import { CellType, coordsToCellKey } from 'src/core/game'
 import { useMineFieldCellStore } from 'src/shared/store'
-import { createHandleSelectCell } from './createHandleSelectCell'
+import { createHandleRevealCell } from './createHandleRevealCell'
 import { FlagWithAnimation } from './FlagWithAnimation'
 import {
   CellBoxProps,
   MineCounterCellComponentProps,
   MineFieldBoardGridCellProps,
-  NonSelectedCellProps,
+  NonRevealedCellProps,
 } from './types/MineFieldBoardGridCellTypes'
 import { useCellLongPress } from './useCellLongPress'
 
@@ -24,10 +24,10 @@ const CellBox = styled(Box, {
   height: 50,
   border: '2px solid #272727ff',
   backgroundColor: isExploded ? theme.palette.error.main : theme.palette.mode === 'dark' ? '#616161ff' : '#c9c9c9ff',
-  userSelect: 'none',
+  userReveal: 'none',
 }))
 
-const NonSelectedCell = memo(({ onClick, onContextMenu, longPressHandlers, isFlagged }: NonSelectedCellProps) => {
+const NonRevealedCell = memo(({ onClick, onContextMenu, longPressHandlers, isFlagged }: NonRevealedCellProps) => {
   return (
     <IconButton
       disableRipple
@@ -78,24 +78,24 @@ export default function MineFieldBoardGridCell({ rowIndex, colIndex, getMineCoun
   const cellType = cellState?.type
   const isMine = cellType === CellType.MINE
   const isMineCounter = cellType === CellType.MINE_COUNTER
-  const isSelected = Boolean(cellState?.isSelected)
+  const isRevealed = Boolean(cellState?.isRevealed)
   const isFlagged = Boolean(cellState?.isFlagged)
   const isExploded = isMine && Boolean(cellState?.isExploded)
   const counterValue = isMineCounter ? cellState.value : null
 
   const longPressHandlers = useCellLongPress(() => toggleFlagCell(cellKey), 200)
 
-  const handleSelectCell = useMemo(() => createHandleSelectCell({ cellKey, cellType, isFlagged }), [cellKey, cellType, isFlagged])
+  const handleRevealCell = useMemo(() => createHandleRevealCell({ cellKey, cellType, isFlagged }), [cellKey, cellType, isFlagged])
 
   const handleContextMenu = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     toggleFlagCell(cellKey)
   }, [])
 
-  if (!isSelected) {
+  if (!isRevealed) {
     return (
-      <NonSelectedCell
-        onClick={handleSelectCell}
+      <NonRevealedCell
+        onClick={handleRevealCell}
         onContextMenu={handleContextMenu}
         longPressHandlers={longPressHandlers}
         isFlagged={isFlagged}

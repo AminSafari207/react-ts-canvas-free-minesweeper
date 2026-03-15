@@ -3,9 +3,9 @@ import { Button, Divider, IconButton, Typography } from '@mui/material'
 import { CellKey, CellType, collectLinkedEmptyCells, GameStatus } from 'src/core/game'
 import { useMineFieldCellStore, useMineFieldMetaDataStore, useModalStore } from 'src/shared/store'
 import { useTimerStore } from 'src/shared/store/useTimerStore'
-import { CellClickHandler, CreateHandleSelectCell, CreateHandleSelectCellParams } from './types/createHandleSelectCellTypes'
+import { CellClickHandler, CreateHandleRevealCell, CreateHandleRevealCellParams } from './types/createHandleRevealCellTypes'
 
-const { selectCell, selectMultipleCells, explodeMine } = useMineFieldCellStore.getState()
+const { revealCell, revealMultipleCells, explodeMine } = useMineFieldCellStore.getState()
 const { startNewGame, updateMetaData, hasWon } = useMineFieldMetaDataStore.getState()
 const { showSimpleModal, closeModal } = useModalStore.getState()
 const { stopTimer } = useTimerStore.getState()
@@ -13,9 +13,13 @@ const { stopTimer } = useTimerStore.getState()
 const handleRestartClick = () => {
   startNewGame()
   closeModal()
-} 
+}
 
-export const createHandleSelectCell: CreateHandleSelectCell = ({ cellKey, cellType, isFlagged }: CreateHandleSelectCellParams): CellClickHandler => {
+export const createHandleRevealCell: CreateHandleRevealCell = ({
+  cellKey,
+  cellType,
+  isFlagged,
+}: CreateHandleRevealCellParams): CellClickHandler => {
   return (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
 
@@ -27,7 +31,7 @@ export const createHandleSelectCell: CreateHandleSelectCell = ({ cellKey, cellTy
       const { randomMineCellKeys } = useMineFieldCellStore.getState()
 
       explodeMine(cellKey)
-      selectMultipleCells(randomMineCellKeys)
+      revealMultipleCells(randomMineCellKeys)
       stopTimer()
       updateMetaData({ gameStatus: GameStatus.LOSE })
       showSimpleModal({
@@ -58,7 +62,7 @@ export const createHandleSelectCell: CreateHandleSelectCell = ({ cellKey, cellTy
     }
 
     if (cellType === CellType.MINE_COUNTER) {
-      selectCell(cellKey)
+      revealCell(cellKey)
     }
 
     if (cellType === CellType.EMPTY) {
@@ -66,7 +70,7 @@ export const createHandleSelectCell: CreateHandleSelectCell = ({ cellKey, cellTy
       const mineField = useMineFieldCellStore.getState().cells
       const collectedLinkedEmptyCells: CellKey[] = collectLinkedEmptyCells(cellKey, mineField, rowCount, colCount)
 
-      selectMultipleCells(collectedLinkedEmptyCells)
+      revealMultipleCells(collectedLinkedEmptyCells)
     }
 
     if (hasWon()) {

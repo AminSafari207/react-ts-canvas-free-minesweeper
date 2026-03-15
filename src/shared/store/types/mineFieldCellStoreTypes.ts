@@ -7,8 +7,8 @@ export interface MineFieldCellStore {
 
   updateAllCells: (newCells: MineFieldRecord) => void
   updateRandomMineCellKeys: (cellKeys: CellKey[]) => void
-  selectCell: (cellKey: CellKey) => void
-  selectMultipleCells: (cellKeys: CellKey[]) => void
+  revealCell: (cellKey: CellKey) => void
+  revealMultipleCells: (cellKeys: CellKey[]) => void
   explodeMine: (cellKey: CellKey) => void
   toggleFlagCell: (cellKey: CellKey) => void
   resetTotalRevealedSafeCells: () => void

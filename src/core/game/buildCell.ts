@@ -1,7 +1,7 @@
 import { CellType, EmptyCell, MineCell, MineCounterCell, MineCounterValue } from './types/types'
 
 const defaultBaseCellProps = {
-  isSelected: false,
+  isRevealed: false,
   isFlagged: false,
 }
 

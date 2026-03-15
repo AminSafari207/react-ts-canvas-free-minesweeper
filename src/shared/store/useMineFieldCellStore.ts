@@ -11,19 +11,19 @@ export const useMineFieldCellStore = create<MineFieldCellStore>((set) => ({
   updateRandomMineCellKeys: (cellKeys) => {
     set({ randomMineCellKeys: cellKeys })
   },
-  selectCell: (cellKey) => {
+  revealCell: (cellKey) => {
     set((s) => {
       const cellState = s.cells[cellKey]
 
-      if (cellState.isSelected || cellState.isFlagged) return s
+      if (cellState.isRevealed || cellState.isFlagged) return s
 
       return {
-        cells: { ...s.cells, [cellKey]: { ...s.cells[cellKey], isSelected: true } },
+        cells: { ...s.cells, [cellKey]: { ...s.cells[cellKey], isRevealed: true } },
         totalRevealedSafeCells: s.totalRevealedSafeCells + 1,
       }
     })
   },
-  selectMultipleCells: (cellKeys) => {
+  revealMultipleCells: (cellKeys) => {
     set((s) => {
       const cellRecord: Record<CellKey, MineFieldCell> = {}
       let cellRecordLength: number = 0
@@ -31,9 +31,9 @@ export const useMineFieldCellStore = create<MineFieldCellStore>((set) => ({
       cellKeys?.forEach((cellKey) => {
         const cellState = s.cells[cellKey]
 
-        if (cellState.isSelected || cellState.isFlagged) return
+        if (cellState.isRevealed || cellState.isFlagged) return
 
-        cellRecord[cellKey] = { ...cellState, isSelected: true }
+        cellRecord[cellKey] = { ...cellState, isRevealed: true }
         cellRecordLength++
       })
 
@@ -51,10 +51,10 @@ export const useMineFieldCellStore = create<MineFieldCellStore>((set) => ({
     set((s) => {
       const cellState = s.cells[cellKey]
 
-      if (cellState.isSelected) return s
+      if (cellState.isRevealed) return s
 
       return {
-        cells: { ...s.cells, [cellKey]: { ...s.cells[cellKey], isSelected: true, isExploded: true } },
+        cells: { ...s.cells, [cellKey]: { ...s.cells[cellKey], isRevealed: true, isExploded: true } },
       }
     })
   },

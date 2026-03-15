@@ -1,6 +1,6 @@
 import { CellKey, CellType } from 'src/core/game'
 
-export type CreateHandleSelectCellParams = {
+export type CreateHandleRevealCellParams = {
   cellKey: CellKey
   cellType: CellType
   isFlagged: boolean
@@ -8,4 +8,4 @@ export type CreateHandleSelectCellParams = {
 
 export type CellClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => void
 
-export type CreateHandleSelectCell = ({ cellKey, cellType, isFlagged }: CreateHandleSelectCellParams) => CellClickHandler
+export type CreateHandleRevealCell = ({ cellKey, cellType, isFlagged }: CreateHandleRevealCellParams) => CellClickHandler
