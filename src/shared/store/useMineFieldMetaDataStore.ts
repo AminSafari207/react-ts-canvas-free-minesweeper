@@ -1,12 +1,13 @@
 import { GameStatus, generateMineField } from 'src/core/game'
-import { create } from 'zustand'
+import { create, StateCreator } from 'zustand'
+import { createJSONStorage, persist } from 'zustand/middleware'
 import { calculateTotalNonMineCells } from './calculateTotalNonMineCells'
 import { handlePartialUpdate } from './handlePartialUpdate'
 import { MineFieldMetaData, MineFieldMetaDataStore } from './types/mineFieldMetaDataStoreTypes'
 import { useMineFieldCellStore } from './useMineFieldCellStore'
 import { useTimerStore } from './useTimerStore'
 
-export const useMineFieldMetaDataStore = create<MineFieldMetaDataStore>((set, get) => ({
+const mineFieldMetaDataStore: StateCreator<MineFieldMetaDataStore> = (set, get) => ({
   rowCount: 9,
   colCount: 9,
   totalMines: 10,
@@ -17,6 +18,7 @@ export const useMineFieldMetaDataStore = create<MineFieldMetaDataStore>((set, ge
   updateMetaData: (metaData) => {
     set((s) => handlePartialUpdate<MineFieldMetaData>(s, metaData))
   },
+
   startNewGame: () => {
     set({ gameStatus: GameStatus.LOADING })
 
@@ -45,4 +47,16 @@ export const useMineFieldMetaDataStore = create<MineFieldMetaDataStore>((set, ge
     const totalNonMineCells = get().totalNonMineCells
     return totalRevealedSafeCells === totalNonMineCells
   },
-}))
+})
+
+const withPersist = persist(mineFieldMetaDataStore, {
+  name: 'minesweeper-meta',
+  storage: createJSONStorage(() => localStorage),
+  partialize: (s) => ({
+    rowCount: s.rowCount,
+    colCount: s.colCount,
+    totalMines: s.totalMines,
+  }),
+})
+
+export const useMineFieldMetaDataStore = create<MineFieldMetaDataStore>()(withPersist)
