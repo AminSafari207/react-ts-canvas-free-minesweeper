@@ -11,9 +11,8 @@ const mineFieldMetaDataStore: StateCreator<MineFieldMetaDataStore> = (set, get) 
   rowCount: 9,
   colCount: 9,
   totalMines: 10,
-  flagLimit: -1,
+  flagLimit: -1, // TODO
   gameStatus: GameStatus.LOADING,
-  totalNonMineCells: 0,
 
   updateMetaData: (metaData) => {
     set((s) => handlePartialUpdate<MineFieldMetaData>(s, metaData))
@@ -22,31 +21,28 @@ const mineFieldMetaDataStore: StateCreator<MineFieldMetaDataStore> = (set, get) 
   startNewGame: () => {
     set({ gameStatus: GameStatus.LOADING })
 
-    const { updateAllCells, updateRandomMineCellKeys, resetTotalRevealedSafeCells } = useMineFieldCellStore.getState()
+    const { updateAllCells, updateRandomMineCellKeys, resetRevealedSafeCells } = useMineFieldCellStore.getState()
     const { resetTimer, startTimer } = useTimerStore.getState()
+    const updateCellStore = useMineFieldCellStore.setState
     const { rowCount, colCount, totalMines } = get()
 
     setTimeout(() => {
-      const { mineField, randomMineCellKeys } = generateMineField(rowCount, colCount, totalMines)
+      set(() => {
+        const { mineField, randomMineCellKeys } = generateMineField(rowCount, colCount, totalMines)
 
-      resetTimer()
-      updateAllCells(mineField)
-      updateRandomMineCellKeys(randomMineCellKeys)
-      resetTotalRevealedSafeCells()
-      startTimer()
+        resetTimer()
+        updateAllCells(mineField)
+        updateRandomMineCellKeys(randomMineCellKeys)
+        resetRevealedSafeCells()
+        startTimer()
+        updateCellStore({ totalNonMineCells: calculateTotalNonMineCells(rowCount, colCount, totalMines) })
 
-      set({
-        totalNonMineCells: calculateTotalNonMineCells(rowCount, colCount, totalMines),
-        gameStatus: GameStatus.PLAYING,
+        return { gameStatus: GameStatus.PLAYING }
       })
     }, 0)
   },
-  pauseGame: () => {},
-  hasWon: () => {
-    const totalRevealedSafeCells = useMineFieldCellStore.getState().totalRevealedSafeCells
-    const totalNonMineCells = get().totalNonMineCells
-    return totalRevealedSafeCells === totalNonMineCells
-  },
+
+  pauseGame: () => {}, // TODO
 })
 
 const withPersist = persist(mineFieldMetaDataStore, {

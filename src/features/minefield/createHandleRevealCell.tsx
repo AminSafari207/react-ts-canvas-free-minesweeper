@@ -5,8 +5,8 @@ import { useMineFieldCellStore, useMineFieldMetaDataStore, useModalStore } from 
 import { useTimerStore } from 'src/shared/store/useTimerStore'
 import { CellClickHandler, CreateHandleRevealCell, CreateHandleRevealCellParams } from './types/createHandleRevealCellTypes'
 
-const { revealCell, revealMultipleCells, explodeMine } = useMineFieldCellStore.getState()
-const { startNewGame, updateMetaData, hasWon } = useMineFieldMetaDataStore.getState()
+const { revealCell, revealMultipleCells, explodeMine, hasWon } = useMineFieldCellStore.getState()
+const { startNewGame, updateMetaData } = useMineFieldMetaDataStore.getState()
 const { showSimpleModal, closeModal } = useModalStore.getState()
 const { stopTimer } = useTimerStore.getState()
 

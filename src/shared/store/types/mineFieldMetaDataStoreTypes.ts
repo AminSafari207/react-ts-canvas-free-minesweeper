@@ -6,7 +6,6 @@ export type MineFieldMetaData = {
   colCount: number
   totalMines: number
   flagLimit: number
-  totalNonMineCells: number
   gameStatus: GameStatus
 }
 
@@ -14,5 +13,4 @@ export interface MineFieldMetaDataStore extends MineFieldMetaData {
   updateMetaData: (metaDataUpdateArg: StateUpdater<MineFieldMetaData>) => void
   startNewGame: () => void
   pauseGame: () => void
-  hasWon: () => boolean
 }

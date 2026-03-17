@@ -3,7 +3,8 @@ import { CellKey, MineFieldRecord } from 'src/core/game'
 export interface MineFieldCellStore {
   cells: MineFieldRecord
   randomMineCellKeys: CellKey[]
-  totalRevealedSafeCells: number
+  revealedSafeCells: number
+  totalNonMineCells: number
 
   updateAllCells: (newCells: MineFieldRecord) => void
   updateRandomMineCellKeys: (cellKeys: CellKey[]) => void
@@ -11,5 +12,6 @@ export interface MineFieldCellStore {
   revealMultipleCells: (cellKeys: CellKey[]) => void
   explodeMine: (cellKey: CellKey) => void
   toggleFlagCell: (cellKey: CellKey) => void
-  resetTotalRevealedSafeCells: () => void
+  resetRevealedSafeCells: () => void
+  hasWon: () => boolean
 }

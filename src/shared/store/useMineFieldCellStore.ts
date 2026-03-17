@@ -2,15 +2,18 @@ import { CellKey, MineFieldCell } from 'src/core/game'
 import { create } from 'zustand'
 import { MineFieldCellStore } from './types/mineFieldCellStoreTypes'
 
-export const useMineFieldCellStore = create<MineFieldCellStore>((set) => ({
+export const useMineFieldCellStore = create<MineFieldCellStore>((set, get) => ({
   cells: {},
   randomMineCellKeys: [],
-  totalRevealedSafeCells: 0,
+  revealedSafeCells: 0,
+  totalNonMineCells: 0,
 
   updateAllCells: (newCells) => set({ cells: newCells }),
+
   updateRandomMineCellKeys: (cellKeys) => {
     set({ randomMineCellKeys: cellKeys })
   },
+
   revealCell: (cellKey) => {
     set((s) => {
       const cellState = s.cells[cellKey]
@@ -19,10 +22,11 @@ export const useMineFieldCellStore = create<MineFieldCellStore>((set) => ({
 
       return {
         cells: { ...s.cells, [cellKey]: { ...s.cells[cellKey], isRevealed: true } },
-        totalRevealedSafeCells: s.totalRevealedSafeCells + 1,
+        revealedSafeCells: s.revealedSafeCells + 1,
       }
     })
   },
+
   revealMultipleCells: (cellKeys) => {
     set((s) => {
       const cellRecord: Record<CellKey, MineFieldCell> = {}
@@ -39,14 +43,15 @@ export const useMineFieldCellStore = create<MineFieldCellStore>((set) => ({
 
       if (!cellRecordLength) return s
 
-      const newTotalRevealedSafeCells = s.totalRevealedSafeCells + cellRecordLength
+      const newRevealedSafeCells = s.revealedSafeCells + cellRecordLength
 
       return {
         cells: { ...s.cells, ...cellRecord },
-        totalRevealedSafeCells: newTotalRevealedSafeCells,
+        revealedSafeCells: newRevealedSafeCells,
       }
     })
   },
+
   explodeMine: (cellKey) => {
     set((s) => {
       const cellState = s.cells[cellKey]
@@ -58,10 +63,17 @@ export const useMineFieldCellStore = create<MineFieldCellStore>((set) => ({
       }
     })
   },
+
   toggleFlagCell: (cellKey) => {
     set((s) => ({ cells: { ...s.cells, [cellKey]: { ...s.cells[cellKey], isFlagged: !s.cells[cellKey]['isFlagged'] } } }))
   },
-  resetTotalRevealedSafeCells: () => {
-    set({ totalRevealedSafeCells: 0 })
+
+  resetRevealedSafeCells: () => {
+    set({ revealedSafeCells: 0 })
+  },
+
+  hasWon: () => {
+    const { revealedSafeCells, totalNonMineCells } = get()
+    return revealedSafeCells === totalNonMineCells
   },
 }))
