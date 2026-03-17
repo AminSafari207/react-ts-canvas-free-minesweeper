@@ -12,19 +12,22 @@ const mineFieldMetaDataStore: StateCreator<MineFieldMetaDataStore> = (set, get) 
   colCount: 9,
   totalMines: 10,
   flagLimit: -1, // TODO
-  gameStatus: GameStatus.LOADING,
+  gameStatus: GameStatus.IDLE,
 
   updateMetaData: (metaData) => {
     set((s) => handlePartialUpdate<MineFieldMetaData>(s, metaData))
   },
 
   startNewGame: () => {
+    const { rowCount, colCount, totalMines, gameStatus } = get()
+
+    if (gameStatus === GameStatus.LOADING) return
+
     set({ gameStatus: GameStatus.LOADING })
 
     const { updateAllCells, updateRandomMineCellKeys, resetRevealedSafeCells } = useMineFieldCellStore.getState()
     const { resetTimer, startTimer } = useTimerStore.getState()
     const updateCellStore = useMineFieldCellStore.setState
-    const { rowCount, colCount, totalMines } = get()
 
     setTimeout(() => {
       set(() => {

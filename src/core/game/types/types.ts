@@ -5,6 +5,7 @@ export enum CellType {
 }
 
 export enum GameStatus {
+  IDLE,
   LOADING,
   PLAYING,
   PAUSED,
