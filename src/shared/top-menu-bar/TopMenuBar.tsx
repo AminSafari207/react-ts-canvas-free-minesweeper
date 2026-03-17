@@ -1,13 +1,10 @@
-import RefreshRoundedIcon from '@mui/icons-material/RefreshRounded'
-import { Divider, IconButton, Stack } from '@mui/material'
+import { Divider, Stack } from '@mui/material'
 import { PropsWithChildren } from 'react'
 import { DarkModeSwitch } from 'src/shared/dark-mode-switch'
 import { GlassyPaper } from 'src/shared/paper'
-import { useMineFieldMetaDataStore } from 'src/shared/store/useMineFieldMetaDataStore'
 import GameSettingsIconButton from './GameSettingsIconButton'
+import { RestartGameButton } from './RestartGameButton'
 import Timer from './Timer'
-
-const { startNewGame } = useMineFieldMetaDataStore.getState()
 
 const VertricalDivider = () => <Divider orientation="vertical" variant="middle" flexItem />
 
@@ -27,9 +24,7 @@ export default function TopMenuBar() {
         <VertricalDivider />
         <InnerStack>
           <GameSettingsIconButton />
-          <IconButton disableFocusRipple disableRipple disableTouchRipple size="small" sx={{ p: 0 }} onClick={startNewGame}>
-            <RefreshRoundedIcon fontSize="large" />
-          </IconButton>
+          <RestartGameButton />
         </InnerStack>
         <VertricalDivider />
         <InnerStack>
