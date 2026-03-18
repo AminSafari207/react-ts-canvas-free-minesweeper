@@ -1,5 +1,5 @@
 import { styled, Typography } from '@mui/material'
-import { useTimerStore } from 'src/shared/store/useTimerStore'
+import { useTimerStore } from 'src/shared/store/timerSlice'
 import { useShallow } from 'zustand/shallow'
 import { formatTime } from './formatTime'
 

@@ -1,6 +1,6 @@
 import { PropsWithChildren, useEffect } from 'react'
 import { useShallow } from 'zustand/shallow'
-import { useMineFieldMetaDataStore } from '../store/useMineFieldMetaDataStore'
+import { useMineFieldMetaDataStore } from '../store/configSlice'
 
 export const MineFieldBootstrap = ({ children }: PropsWithChildren) => {
   const startNewGame = useMineFieldMetaDataStore(useShallow((s) => s.startNewGame))

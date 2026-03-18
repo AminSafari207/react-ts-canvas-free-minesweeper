@@ -2,7 +2,7 @@ import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded'
 import { Button, Divider, IconButton, Typography } from '@mui/material'
 import { CellKey, CellType, collectLinkedEmptyCells, GameStatus } from 'src/core/game'
 import { useMineFieldCellStore, useMineFieldMetaDataStore, useModalStore } from 'src/shared/store'
-import { useTimerStore } from 'src/shared/store/useTimerStore'
+import { useTimerStore } from 'src/shared/store/timerSlice'
 import { CellClickHandler, CreateHandleRevealCell, CreateHandleRevealCellParams } from './types/createHandleRevealCellTypes'
 
 const { revealCell, revealMultipleCells, explodeMine, hasWon } = useMineFieldCellStore.getState()

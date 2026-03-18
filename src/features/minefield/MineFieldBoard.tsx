@@ -1,6 +1,6 @@
 import { Box } from '@mui/material'
 import { GameStatus } from 'src/core/game'
-import { useMineFieldMetaDataStore } from 'src/shared/store/useMineFieldMetaDataStore'
+import { useMineFieldMetaDataStore } from 'src/shared/store/configSlice'
 import { useShallow } from 'zustand/shallow'
 import MineFieldBoardGrid from './MineFieldBoardGrid'
 import { MineFieldBoardGridSkeleton } from './MineFieldBoardGridSkeleton'

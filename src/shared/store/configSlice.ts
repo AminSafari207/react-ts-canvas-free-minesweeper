@@ -1,0 +1,10 @@
+import { StateCreator } from 'zustand'
+import { ConfigSlice } from './types/configSliceTypes'
+import { GameStore } from './types/gameStoreTypes'
+
+export const createConfigSlice: StateCreator<GameStore, [], [], ConfigSlice> = (set, get) => ({
+  rowCount: 9,
+  colCount: 9,
+  totalMines: 10,
+  flagLimit: -1, // TODO
+})

@@ -1,6 +1,6 @@
-export interface TimerStore {
+export interface TimerSlice {
   seconds: number
-  running: boolean
+
   startTimer: () => void
   stopTimer: () => void
   resetTimer: () => void

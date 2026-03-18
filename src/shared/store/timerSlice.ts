@@ -1,33 +1,32 @@
-import { create } from 'zustand'
-import { TimerStore } from './types/timeStoreTypes'
+import { StateCreator } from 'zustand'
+import { GameStore } from './types/gameStoreTypes'
+import { TimerSlice } from './types/timerSliceTypes'
 
 let intervalId: number | null = null
 
-export const useTimerStore = create<TimerStore>((set, get) => ({
+export const createTimerSlice: StateCreator<GameStore, [], [], TimerSlice> = (set, get) => ({
   seconds: 0,
-  running: false,
 
   startTimer: () => {
-    if (get().running) return
+    if (intervalId !== null) return
 
     intervalId = window.setInterval(() => {
       get().tick()
     }, 1000)
-
-    set({ running: true })
   },
+
   stopTimer: () => {
     if (intervalId !== null) {
       clearInterval(intervalId)
       intervalId = null
     }
-
-    set({ running: false })
   },
+
   resetTimer: () => {
     get().stopTimer()
     set({ seconds: 0 })
   },
+
   tick: () => {
     set((state) => {
       if (state.seconds >= 999) {
@@ -38,4 +37,4 @@ export const useTimerStore = create<TimerStore>((set, get) => ({
       return { seconds: state.seconds + 1 }
     })
   },
-}))
+})

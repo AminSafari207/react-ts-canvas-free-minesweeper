@@ -1,18 +1,13 @@
 import { CellKey, MineFieldCell } from 'src/core/game'
-import { create } from 'zustand'
-import { MineFieldCellStore } from './types/mineFieldCellStoreTypes'
+import { StateCreator } from 'zustand'
+import { BoardSlice } from './types/boardSliceTypes'
+import { GameStore } from './types/gameStoreTypes'
 
-export const useMineFieldCellStore = create<MineFieldCellStore>((set, get) => ({
+export const createBoardSlice: StateCreator<GameStore, [], [], BoardSlice> = (set, get) => ({
   cells: {},
   randomMineCellKeys: [],
   revealedSafeCells: 0,
   totalNonMineCells: 0,
-
-  updateAllCells: (newCells) => set({ cells: newCells }),
-
-  updateRandomMineCellKeys: (cellKeys) => {
-    set({ randomMineCellKeys: cellKeys })
-  },
 
   revealCell: (cellKey) => {
     set((s) => {
@@ -68,12 +63,8 @@ export const useMineFieldCellStore = create<MineFieldCellStore>((set, get) => ({
     set((s) => ({ cells: { ...s.cells, [cellKey]: { ...s.cells[cellKey], isFlagged: !s.cells[cellKey]['isFlagged'] } } }))
   },
 
-  resetRevealedSafeCells: () => {
-    set({ revealedSafeCells: 0 })
-  },
-
   hasWon: () => {
     const { revealedSafeCells, totalNonMineCells } = get()
     return revealedSafeCells === totalNonMineCells
   },
-}))
+})
