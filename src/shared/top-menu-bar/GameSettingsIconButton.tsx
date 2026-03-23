@@ -2,10 +2,10 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import SettingsRounded from '@mui/icons-material/SettingsRounded'
 import { Button, IconButton, Slider, Stack, Typography } from '@mui/material'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useMineFieldMetaDataStore, useModalStore } from 'src/shared/store'
+import { useGameStore, useModalStore } from 'src/shared/store'
 import { SliderConfig } from './types/GameSettingsIconButtonTypes'
 
-const { updateMetaData, startNewGame } = useMineFieldMetaDataStore.getState()
+const { startNewGame } = useGameStore.getState()
 const { showCustomModal, closeModal } = useModalStore.getState()
 
 const MIN_ROWS = 9
@@ -29,7 +29,7 @@ const VerticalSlider = ({ value, label, min, max, onChange }: SliderConfig) => (
 )
 
 const SettingsBox = () => {
-  const { rowCount, colCount, totalMines } = useMineFieldMetaDataStore.getState()
+  const { rowCount, colCount, totalMines } = useGameStore.getState()
 
   const [rows, setRows] = useState<number>(rowCount)
   const [cols, setCols] = useState<number>(colCount)
@@ -56,7 +56,7 @@ const SettingsBox = () => {
   }, [maxMines])
 
   const handlePlay = useCallback(() => {
-    updateMetaData({ rowCount: rows, colCount: cols, totalMines: mines })
+    useGameStore.setState({ rowCount: rows, colCount: cols, totalMines: mines })
     startNewGame()
     closeModal()
   }, [rows, cols, mines])

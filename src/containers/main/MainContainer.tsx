@@ -7,7 +7,7 @@ import { FullPageLoadingSuspenseFallback } from 'src/shared/loading'
 const stripAlpha = (hex: string) => hex.slice(0, 7)
 
 const TopMenuBar = lazy(() => import('src/shared/top-menu-bar/TopMenuBar'))
-const MineFieldBoard = lazy(() => import('src/features/minefield/MineFieldBoard'))
+const MineFieldBoard = lazy(() => import('src/features/minefield/components/MineFieldBoard'))
 
 export default function MainContainer() {
   const { mode } = useThemeMode()

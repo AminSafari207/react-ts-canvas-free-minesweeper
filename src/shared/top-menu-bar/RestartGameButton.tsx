@@ -1,8 +1,8 @@
 import RefreshRoundedIcon from '@mui/icons-material/RefreshRounded'
 import { IconButton } from '@mui/material'
-import { useMineFieldMetaDataStore } from 'src/shared/store'
+import { useGameStore } from 'src/shared/store'
 
-const { startNewGame } = useMineFieldMetaDataStore.getState()
+const { startNewGame } = useGameStore.getState()
 
 export const RestartGameButton = () => {
   return (

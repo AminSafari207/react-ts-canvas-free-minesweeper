@@ -1,18 +1,18 @@
 import { Box, IconButton, styled, Typography } from '@mui/material'
 import { memo, useCallback, useMemo } from 'react'
 import { CellType, coordsToCellKey } from 'src/core/game'
-import { useMineFieldCellStore } from 'src/shared/store'
-import { createHandleRevealCell } from './createHandleRevealCell'
-import { FlagWithAnimation } from './FlagWithAnimation'
+import { useGameStore } from 'src/shared/store'
 import {
   CellBoxProps,
   MineCounterCellComponentProps,
   MineFieldBoardGridCellProps,
   NonRevealedCellProps,
-} from './types/MineFieldBoardGridCellTypes'
-import { useCellLongPress } from './useCellLongPress'
+} from '../types/MineFieldBoardGridCellTypes'
+import { FlagWithAnimation } from './FlagWithAnimation'
+import { useCellLongPress } from './hooks/useCellLongPress'
+import { createHandleRevealCell } from './reveal-handler/createHandleRevealCell'
 
-const { toggleFlagCell } = useMineFieldCellStore.getState()
+const { toggleFlagCell } = useGameStore.getState()
 
 const CellBox = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isExploded',
@@ -73,7 +73,7 @@ const MineCounterCellComponent = ({ counterValue, counterColor }: MineCounterCel
 export default function MineFieldBoardGridCell({ rowIndex, colIndex, getMineCounterColor }: MineFieldBoardGridCellProps) {
   const cellKey = coordsToCellKey(rowIndex, colIndex)
 
-  const cellState = useMineFieldCellStore((s) => s.cells[cellKey])
+  const cellState = useGameStore((s) => s.cells[cellKey])
 
   const cellType = cellState?.type
   const isMine = cellType === CellType.MINE

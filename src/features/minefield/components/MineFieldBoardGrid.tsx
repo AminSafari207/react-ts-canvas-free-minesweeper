@@ -3,8 +3,8 @@ import { JSX, PropsWithChildren, useCallback, useMemo } from 'react'
 import { GameStatus, MineCounterValue } from 'src/core/game'
 import { GlassyPaper } from 'src/shared/paper'
 import MineFieldBoardGridCell from './MineFieldBoardGridCell'
-import { GetMineCounterColor } from './types/MineFieldBoardGridCellTypes'
-import { MineFieldBoardGridProps } from './types/MineFieldBoardGridTypes'
+import { GetMineCounterColor } from '../types/MineFieldBoardGridCellTypes'
+import { MineFieldBoardGridProps } from '../types/MineFieldBoardGridTypes'
 
 const RowWrapper = ({ children }: PropsWithChildren) => {
   return <Stack direction="row">{children}</Stack>

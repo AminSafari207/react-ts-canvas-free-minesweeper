@@ -1,5 +1,5 @@
 import { styled, Typography } from '@mui/material'
-import { useTimerStore } from 'src/shared/store/timerSlice'
+import { useGameStore } from 'src/shared/store'
 import { useShallow } from 'zustand/shallow'
 import { formatTime } from './formatTime'
 
@@ -14,7 +14,7 @@ const TimeTypo = styled(Typography)(({ theme }) => ({
 }))
 
 export default function Timer() {
-  const seconds = useTimerStore(useShallow((s) => s.seconds))
+  const seconds = useGameStore(useShallow((s) => s.seconds))
 
   return <TimeTypo color="info">{formatTime(seconds)}</TimeTypo>
 }

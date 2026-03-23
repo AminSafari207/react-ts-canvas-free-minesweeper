@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
 import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { ReactZoomPanPinchRef, TransformComponent, TransformWrapper } from 'react-zoom-pan-pinch'
-import { ZoomPanPinchWrapperProps } from './types/ZoomPanPinchWrapperTypes'
+import { ZoomPanPinchWrapperProps } from '../types/ZoomPanPinchWrapperTypes'
 
 const MIN_ZOOM = 0.2
 const MAX_ZOOM = 2.0
