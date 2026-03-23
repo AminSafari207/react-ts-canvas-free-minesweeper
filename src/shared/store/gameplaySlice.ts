@@ -6,6 +6,10 @@ import { GameplaySlice } from './types/gameplaySliceTypes'
 export const createGameplaySlice: StateCreator<GameStore, [], [], GameplaySlice> = (set, get) => ({
   gameStatus: GameStatus.IDLE,
 
+  changeGameStatus: (newGameStatus: GameStatus) => {
+    set({ gameStatus: newGameStatus })
+  },
+
   startNewGame: () => {
     const { gameStatus } = get()
 
@@ -16,7 +20,7 @@ export const createGameplaySlice: StateCreator<GameStore, [], [], GameplaySlice>
     setTimeout(() => {
       const { rowCount, colCount, totalMines, resetTimer, startTimer } = get()
       const { mineField, randomMineCellKeys } = generateMineField(rowCount, colCount, totalMines)
-      
+
       resetTimer()
       set({
         cells: mineField,

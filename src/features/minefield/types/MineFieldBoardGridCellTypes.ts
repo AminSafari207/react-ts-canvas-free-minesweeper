@@ -1,5 +1,5 @@
 import { MineCounterValue } from 'src/core/game'
-import { CellClickHandler } from './createHandleRevealCellTypes'
+import { CellClickHandler } from './revealHandlerTypes'
 import { LongPressHanlders } from './useCellLongPressTypes'
 
 export type GetMineCounterColor = (value: MineCounterValue | null) => string
