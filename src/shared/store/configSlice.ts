@@ -7,4 +7,12 @@ export const createConfigSlice: StateCreator<GameStore, [], [], ConfigSlice> = (
   colCount: 9,
   totalMines: 10,
   flagLimit: -1, // TODO
+
+  applyGameConfig: (options) => {
+    if (!options || Object.keys(options).length === 0) {
+      throw new Error('applyGameConfig called with empty options')
+    }
+
+    set(options)
+  },
 })

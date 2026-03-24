@@ -5,9 +5,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useGameStore, useModalStore } from 'src/shared/store'
 import { SliderConfig } from './types/GameSettingsIconButtonTypes'
 
-const { startNewGame } = useGameStore.getState()
-const { showCustomModal, closeModal } = useModalStore.getState()
-
 const MIN_ROWS = 9
 const MIN_COLS = 9
 const MIN_MINES = 10
@@ -29,11 +26,12 @@ const VerticalSlider = ({ value, label, min, max, onChange }: SliderConfig) => (
 )
 
 const SettingsBox = () => {
-  const { rowCount, colCount, totalMines } = useGameStore.getState()
+  const game = useGameStore.getState()
+  const modal = useModalStore.getState()
 
-  const [rows, setRows] = useState<number>(rowCount)
-  const [cols, setCols] = useState<number>(colCount)
-  const [mines, setMines] = useState<number>(totalMines)
+  const [rows, setRows] = useState<number>(game.rowCount)
+  const [cols, setCols] = useState<number>(game.colCount)
+  const [mines, setMines] = useState<number>(game.totalMines)
 
   const maxMines = useMemo(() => calculateMaxMine(rows, cols), [rows, cols])
 
@@ -56,9 +54,9 @@ const SettingsBox = () => {
   }, [maxMines])
 
   const handlePlay = useCallback(() => {
-    useGameStore.setState({ rowCount: rows, colCount: cols, totalMines: mines })
-    startNewGame()
-    closeModal()
+    game.applyGameConfig({ rowCount: rows, colCount: cols, totalMines: mines })
+    game.startNewGame()
+    modal.closeModal()
   }, [rows, cols, mines])
 
   return (
@@ -70,7 +68,7 @@ const SettingsBox = () => {
       </Stack>
 
       <Stack direction="row" spacing={1} maxHeight={40}>
-        <Button variant="contained" color="error" onClick={closeModal}>
+        <Button variant="contained" color="error" onClick={modal.closeModal}>
           <CloseRoundedIcon fontSize="large" />
         </Button>
         <Button variant="contained" color="primary" size="large" sx={{ fontSize: 22 }} onClick={handlePlay}>
@@ -83,7 +81,9 @@ const SettingsBox = () => {
 
 export default function GameSettingsIconButton() {
   const handleOnClick = useCallback(() => {
-    showCustomModal({
+    const modal = useModalStore.getState()
+
+    modal.showCustomModal({
       render: SettingsBox,
     })
   }, [])
