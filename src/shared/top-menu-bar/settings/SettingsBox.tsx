@@ -1,17 +1,15 @@
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
-import SettingsRounded from '@mui/icons-material/SettingsRounded'
-import { Button, IconButton, Slider, Stack, Typography } from '@mui/material'
+import { Button, Slider, Stack, Typography } from '@mui/material'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useGameStore, useModalStore } from 'src/shared/store'
-import { SliderConfig } from './types/GameSettingsIconButtonTypes'
+import { SliderConfig } from '../types/GameSettingsIconButtonTypes'
+import { calculateMaxMine } from './calculateMaxMine'
 
 const MIN_ROWS = 9
 const MIN_COLS = 9
 const MIN_MINES = 10
 const MAX_ROWS = 30
 const MAX_COLS = 30
-
-const calculateMaxMine = (rows: number, cols: number): number => Math.floor(((cols * rows) / 10) * 3)
 
 const VerticalSlider = ({ value, label, min, max, onChange }: SliderConfig) => (
   <Stack spacing={2} alignItems="center" flex={1}>
@@ -25,7 +23,7 @@ const VerticalSlider = ({ value, label, min, max, onChange }: SliderConfig) => (
   </Stack>
 )
 
-const SettingsBox = () => {
+export const SettingsBox = () => {
   const game = useGameStore.getState()
   const modal = useModalStore.getState()
 
@@ -76,21 +74,5 @@ const SettingsBox = () => {
         </Button>
       </Stack>
     </Stack>
-  )
-}
-
-export default function GameSettingsIconButton() {
-  const handleOnClick = useCallback(() => {
-    const modal = useModalStore.getState()
-
-    modal.showCustomModal({
-      render: SettingsBox,
-    })
-  }, [])
-
-  return (
-    <IconButton disableFocusRipple disableRipple disableTouchRipple size="small" sx={{ p: 0 }} onClick={handleOnClick}>
-      <SettingsRounded sx={{ fontSize: 32 }} />
-    </IconButton>
   )
 }

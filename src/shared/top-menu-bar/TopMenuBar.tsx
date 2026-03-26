@@ -2,8 +2,8 @@ import { Divider, Stack } from '@mui/material'
 import { PropsWithChildren } from 'react'
 import { DarkModeSwitch } from 'src/shared/dark-mode-switch'
 import { GlassyPaper } from 'src/shared/paper'
-import GameSettingsIconButton from './GameSettingsIconButton'
 import { RestartGameButton } from './RestartGameButton'
+import GameSettingsIconButton from './settings/GameSettingsIconButton'
 import Timer from './Timer'
 
 const VertricalDivider = () => <Divider orientation="vertical" variant="middle" flexItem />
