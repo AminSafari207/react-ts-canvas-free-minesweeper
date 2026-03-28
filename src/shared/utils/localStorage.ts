@@ -1,7 +1,7 @@
 import { ThemeContextRealValues } from 'src/core/theme'
-import { StorageKeys } from 'src/shared/constants'
+import { storageKeys } from 'src/shared/constants'
 
-function getStorageObject<ReturnType = unknown>(key: StorageKeys) {
+function getStorageObject<ReturnType = unknown>(key: storageKeys) {
   const returnDataString = window.localStorage.getItem(key)
   if (returnDataString) {
     try {
@@ -12,7 +12,7 @@ function getStorageObject<ReturnType = unknown>(key: StorageKeys) {
   }
 }
 
-function setStorageObject<ObjectType>(key: StorageKeys, obj?: ObjectType) {
+function setStorageObject<ObjectType>(key: storageKeys, obj?: ObjectType) {
   if (obj) {
     window.localStorage.setItem(key, JSON.stringify(obj))
   } else {
@@ -20,6 +20,6 @@ function setStorageObject<ObjectType>(key: StorageKeys, obj?: ObjectType) {
   }
 }
 
-export const getThemeMode = () => getStorageObject<ThemeContextRealValues>(StorageKeys.themeMode)
+export const getThemeMode = () => getStorageObject<ThemeContextRealValues>(storageKeys.themeMode)
 
-export const setThemeMode = (themeMode?: ThemeContextRealValues) => setStorageObject(StorageKeys.themeMode, themeMode)
+export const setThemeMode = (themeMode?: ThemeContextRealValues) => setStorageObject(storageKeys.themeMode, themeMode)

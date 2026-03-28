@@ -1,2 +1,2 @@
 export { panelUI } from './panelUI'
-export { StorageKeys } from './StorageKeys'
+export { storageKeys } from './storageKeys'
