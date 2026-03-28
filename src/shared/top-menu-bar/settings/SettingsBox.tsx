@@ -1,15 +1,10 @@
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { Button, Slider, Stack, Typography } from '@mui/material'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { boardLimits } from 'src/shared/constants'
 import { useGameStore, useModalStore } from 'src/shared/store'
 import { SliderConfig } from '../types/GameSettingsIconButtonTypes'
 import { calculateMaxMine } from './calculateMaxMine'
-
-const MIN_ROWS = 9
-const MIN_COLS = 9
-const MIN_MINES = 10
-const MAX_ROWS = 30
-const MAX_COLS = 30
 
 const VerticalSlider = ({ value, label, min, max, onChange }: SliderConfig) => (
   <Stack spacing={2} alignItems="center" flex={1}>
@@ -60,9 +55,9 @@ export const SettingsBox = () => {
   return (
     <Stack p={2} minHeight={300} spacing={8} alignItems="center">
       <Stack direction="row" spacing={6}>
-        <VerticalSlider value={rows} label="Rows" min={MIN_ROWS} max={MAX_ROWS} onChange={handleChangeRows} />
-        <VerticalSlider value={cols} label="Cols" min={MIN_COLS} max={MAX_COLS} onChange={handleChangeCols} />
-        <VerticalSlider value={mines} label="Mines" min={MIN_MINES} max={maxMines} onChange={handleChangeMines} />
+        <VerticalSlider value={rows} label="Rows" min={boardLimits.rows.min} max={boardLimits.rows.max} onChange={handleChangeRows} />
+        <VerticalSlider value={cols} label="Cols" min={boardLimits.cols.min} max={boardLimits.cols.max} onChange={handleChangeCols} />
+        <VerticalSlider value={mines} label="Mines" min={boardLimits.mines.min} max={maxMines} onChange={handleChangeMines} />
       </Stack>
 
       <Stack direction="row" spacing={1} maxHeight={40}>

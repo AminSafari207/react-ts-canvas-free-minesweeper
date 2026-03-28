@@ -1,11 +1,12 @@
+import { boardLimits } from 'src/shared/constants'
 import { StateCreator } from 'zustand'
 import { ConfigSlice } from './types/configSliceTypes'
 import { GameStore } from './types/gameStoreTypes'
 
 export const createConfigSlice: StateCreator<GameStore, [], [], ConfigSlice> = (set, get) => ({
-  rowCount: 9,
-  colCount: 9,
-  totalMines: 10,
+  rowCount: boardLimits.rows.min,
+  colCount: boardLimits.cols.min,
+  totalMines: boardLimits.mines.min,
   flagLimit: -1, // TODO
 
   applyGameConfig: (options) => {
