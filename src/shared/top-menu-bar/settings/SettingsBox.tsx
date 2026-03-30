@@ -1,7 +1,7 @@
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { Button, Slider, Stack, Typography } from '@mui/material'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { boardLimits } from 'src/shared/constants'
+import { minefieldLimits } from 'src/shared/constants'
 import { useGameStore, useModalStore } from 'src/shared/store'
 import { SliderConfig } from '../types/GameSettingsIconButtonTypes'
 import { calculateMaxMine } from './calculateMaxMine'
@@ -55,11 +55,22 @@ export const SettingsBox = () => {
   return (
     <Stack p={2} minHeight={300} spacing={8} alignItems="center">
       <Stack direction="row" spacing={6}>
-        <VerticalSlider value={rows} label="Rows" min={boardLimits.rows.min} max={boardLimits.rows.max} onChange={handleChangeRows} />
-        <VerticalSlider value={cols} label="Cols" min={boardLimits.cols.min} max={boardLimits.cols.max} onChange={handleChangeCols} />
-        <VerticalSlider value={mines} label="Mines" min={boardLimits.mines.min} max={maxMines} onChange={handleChangeMines} />
+        <VerticalSlider
+          value={rows}
+          label="Rows"
+          min={minefieldLimits.dimensions.rows.min}
+          max={minefieldLimits.dimensions.rows.max}
+          onChange={handleChangeRows}
+        />
+        <VerticalSlider
+          value={cols}
+          label="Cols"
+          min={minefieldLimits.dimensions.cols.min}
+          max={minefieldLimits.dimensions.cols.max}
+          onChange={handleChangeCols}
+        />
+        <VerticalSlider value={mines} label="Mines" min={minefieldLimits.mines.count.min} max={maxMines} onChange={handleChangeMines} />
       </Stack>
-
       <Stack direction="row" spacing={1} maxHeight={40}>
         <Button variant="contained" color="error" onClick={modal.closeModal}>
           <CloseRoundedIcon fontSize="large" />
