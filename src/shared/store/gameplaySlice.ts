@@ -19,12 +19,13 @@ export const createGameplaySlice: StateCreator<GameStore, [], [], GameplaySlice>
 
     setTimeout(() => {
       const { rowCount, colCount, totalMines, resetTimer, startTimer } = get()
-      const { mineField, randomMineCellKeys } = generateMineField(rowCount, colCount, totalMines)
+      const { mineField, randomMineCellKeys, emptyRegions } = generateMineField(rowCount, colCount, totalMines)
 
       resetTimer()
       set({
         cells: mineField,
         randomMineCellKeys,
+        emptyRegions,
         revealedSafeCells: 0,
         totalNonMineCells: Math.max(10, rowCount * colCount - totalMines),
         gameStatus: GameStatus.PLAYING,

@@ -1,8 +1,9 @@
-import { CellKey, MineFieldRecord } from 'src/core/game'
+import { CellKey, EmptyRegions, MineFieldRecord } from 'src/core/game'
 
 export interface BoardSlice {
   cells: MineFieldRecord
   randomMineCellKeys: CellKey[]
+  emptyRegions: EmptyRegions
   revealedSafeCells: number
   totalNonMineCells: number
 

@@ -1,5 +1,6 @@
 export { collectLinkedEmptyCells } from './collectLinkedEmptyCells'
 export { cellKeyToCoords, coordsToCellKey, generateMineField } from './generateMineField'
+export type { EmptyRegions } from './types/injectEmptyCellRegionsTypes'
 export { CellType, GameStatus } from './types/types'
 export type {
   CellKey,

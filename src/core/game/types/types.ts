@@ -23,6 +23,7 @@ interface BaseCell {
 
 export interface EmptyCell extends BaseCell {
   type: CellType.EMPTY
+  regionId: number | undefined
 }
 
 export interface MineCell extends BaseCell {

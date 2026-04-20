@@ -5,7 +5,7 @@ const defaultBaseCellProps = {
   isFlagged: false,
 }
 
-const defaultEmptyCellProps = { ...defaultBaseCellProps }
+const defaultEmptyCellProps = { ...defaultBaseCellProps, regionId: undefined }
 
 const defaultMineCellProps = { ...defaultBaseCellProps }
 

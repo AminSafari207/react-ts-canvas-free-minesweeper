@@ -1,4 +1,5 @@
 import { buildEmptyCell, buildMineCell, buildMineCounterCell } from './buildCell'
+import { injectEmptyCellRegions } from './injectEmptyCellRegions'
 import { GeneratedMineFieldRecord } from './types/generateMineFieldTypes'
 import { CellKey, CellType, MineCounterValue, MineFieldRecord } from './types/types'
 
@@ -112,6 +113,7 @@ export const generateMineField = (rowCount = 3, colCount = 3, totalMines = 3): G
 
   const randomMineCellKeys = injectRandomMines(rowCount, colCount, totalMines, mineField)
   injectMineCounters(rowCount, colCount, mineField)
+  const emptyRegions = injectEmptyCellRegions(rowCount, colCount, mineField)
 
-  return { mineField, randomMineCellKeys }
+  return { mineField, randomMineCellKeys, emptyRegions }
 }

@@ -6,6 +6,7 @@ import { GameStore } from './types/gameStoreTypes'
 export const createBoardSlice: StateCreator<GameStore, [], [], BoardSlice> = (set, get) => ({
   cells: {},
   randomMineCellKeys: [],
+  emptyRegions: [],
   revealedSafeCells: 0,
   totalNonMineCells: 0,
 
