@@ -1,4 +1,6 @@
+export { createBitmap } from './bitmap'
 export { groupChildrenByType } from './groupChildrenByType'
 export { getThemeMode, setThemeMode } from './localStorage'
 export { shouldForwardProp, shouldForwardPropWithBlackList, shouldForwardPropWithWhiteList } from './shouldForwardProp'
+export type { Bitmap, CreateBitmap } from './types/bitmapTypes'
 export { withPerformance } from './withPerformance'
