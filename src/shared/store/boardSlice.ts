@@ -1,4 +1,4 @@
-import { CellKey, MineFieldCell } from 'src/core/game'
+import { CellKey, MineFieldCell, MineFieldRecord } from 'src/core/game'
 import { StateCreator } from 'zustand'
 import { BoardSlice } from './types/boardSliceTypes'
 import { GameStore } from './types/gameStoreTypes'
@@ -44,6 +44,48 @@ export const createBoardSlice: StateCreator<GameStore, [], [], BoardSlice> = (se
       return {
         cells: { ...s.cells, ...cellRecord },
         revealedSafeCells: newRevealedSafeCells,
+      }
+    })
+  },
+
+  revealEmptyRegion: (regionId) => {
+    set((s) => {
+      const emptyRegions = s.emptyRegions
+
+      if (regionId < 0 || regionId >= emptyRegions.length) {
+        throw new RangeError(`Invalid regionId: ${regionId}`)
+      }
+
+      const { members, borderCounters } = emptyRegions[regionId]
+
+      const cellRecord: MineFieldRecord = {}
+      let revealCount = 0
+
+      for (let i = 0; i < members.length; i++) {
+        const key = members[i]
+        const cell = s.cells[key]
+
+        if (!cell.isRevealed && !cell.isFlagged) {
+          cellRecord[key] = { ...cell, isRevealed: true }
+          revealCount++
+        }
+      }
+
+      for (let i = 0; i < borderCounters.length; i++) {
+        const key = borderCounters[i]
+        const cell = s.cells[key]
+
+        if (!cell.isRevealed && !cell.isFlagged) {
+          cellRecord[key] = { ...cell, isRevealed: true }
+          revealCount++
+        }
+      }
+
+      if (revealCount === 0) return s
+
+      return {
+        cells: { ...s.cells, ...cellRecord },
+        revealedSafeCells: s.revealedSafeCells + revealCount,
       }
     })
   },

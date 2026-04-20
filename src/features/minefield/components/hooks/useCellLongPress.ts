@@ -1,5 +1,5 @@
 import { useMemo, useRef } from 'react'
-import { LongPressHanlders } from './types/useCellLongPressTypes'
+import { LongPressHanlders } from 'src/features/minefield/types/useCellLongPressTypes'
 
 const MOVE_THRESHOLD = 4
 

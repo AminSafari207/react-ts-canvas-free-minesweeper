@@ -1,4 +1,4 @@
-import { CellType, collectLinkedEmptyCells, GameStatus } from 'src/core/game'
+import { CellType, EmptyCell, GameStatus } from 'src/core/game'
 import { useGameStore } from 'src/shared/store'
 import { RevealCellAndEvaluateFn } from '../../types/revealHandlerTypes'
 
@@ -23,8 +23,10 @@ export const revealCellAndEvaluate: RevealCellAndEvaluateFn = (cellKey, cellType
   }
 
   if (cellType === CellType.EMPTY) {
-    const linked = collectLinkedEmptyCells(cellKey, game.cells, game.rowCount, game.colCount)
-    game.revealMultipleCells(linked)
+    const cell = game.cells[cellKey] as EmptyCell
+    const regionId = cell.regionId
+
+    if (regionId !== undefined) game.revealEmptyRegion(regionId)
   }
 
   if (game.hasWon()) {

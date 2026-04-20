@@ -9,6 +9,7 @@ export interface BoardSlice {
 
   revealCell: (cellKey: CellKey) => void
   revealMultipleCells: (cellKeys: CellKey[]) => void
+  revealEmptyRegion: (regionId: number) => void
   explodeMine: (cellKey: CellKey) => void
   toggleFlagCell: (cellKey: CellKey) => void
   hasWon: () => boolean

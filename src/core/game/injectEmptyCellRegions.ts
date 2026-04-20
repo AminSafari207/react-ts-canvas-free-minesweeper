@@ -61,8 +61,8 @@ export const injectEmptyCellRegions = (totalRows: number, totalCols: number, min
         if (cell.type !== CellType.EMPTY) continue
 
         members.push(cellKey)
-        cell.regionId = regionId
         seenInRegion.set(cellIndex, 1)
+        cell.regionId = regionId
 
         for (const [dr, dc] of NEIGHBOR_OFFSETS) {
           const nRow = row + dr
