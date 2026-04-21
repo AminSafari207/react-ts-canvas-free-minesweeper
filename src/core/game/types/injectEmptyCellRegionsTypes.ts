@@ -1,6 +1,7 @@
 import { CellKey } from 'src/core/game'
 
-interface EmptyRegion {
+export interface EmptyRegion {
+  isRevealed: boolean
   members: CellKey[]
   borderCounters: CellKey[]
 }

@@ -26,7 +26,17 @@ export const revealCellAndEvaluate: RevealCellAndEvaluateFn = (cellKey, cellType
     const cell = game.cells[cellKey] as EmptyCell
     const regionId = cell.regionId
 
-    if (regionId !== undefined) game.revealEmptyRegion(regionId)
+    if (regionId === undefined) {
+      throw new Error(`Empty cell (${cellKey}) is missing regionId`)
+    }
+
+    const region = game.emptyRegions[regionId]
+
+    if (!region.isRevealed) {
+      game.revealEmptyRegion(regionId)
+    } else {
+      game.revealCell(cellKey)
+    }
   }
 
   if (game.hasWon()) {

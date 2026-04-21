@@ -83,9 +83,12 @@ export const createBoardSlice: StateCreator<GameStore, [], [], BoardSlice> = (se
 
       if (revealCount === 0) return s
 
+      emptyRegions[regionId].isRevealed = true
+
       return {
         cells: { ...s.cells, ...cellRecord },
         revealedSafeCells: s.revealedSafeCells + revealCount,
+        emptyRegions,
       }
     })
   },
