@@ -6,13 +6,15 @@ import { MineFieldBootstrap } from './MineFieldBootstrap'
 export const Providers = ({ children }: PropsWithChildren) => {
   return (
     <BasicProviders>
-      <FullPageLoadingProvider>
-        <Suspense
-          fallback={<FullPageLoadingSuspenseFallback loadingState={LoadingState.SHOW_NO_BACKGROUND} loadingMessage="Loading Game..." />}
-        >
-          <MineFieldBootstrap>{children}</MineFieldBootstrap>
-        </Suspense>
-      </FullPageLoadingProvider>
+      <MineFieldBootstrap>
+        <FullPageLoadingProvider>
+          <Suspense
+            fallback={<FullPageLoadingSuspenseFallback loadingState={LoadingState.SHOW_NO_BACKGROUND} loadingMessage="Loading Game..." />}
+          >
+            {children}
+          </Suspense>
+        </FullPageLoadingProvider>
+      </MineFieldBootstrap>
     </BasicProviders>
   )
 }

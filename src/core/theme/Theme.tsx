@@ -26,6 +26,8 @@ import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 're
 import { getThemeMode, setThemeMode } from 'src/shared/utils'
 import { ThemeContext } from './ThemeContext'
 
+createTheme({ typography: {} })
+
 export type ThemeProps = PropsWithChildren<{ emotionCache?: EmotionCache }>
 
 const themeMode = getThemeMode()
