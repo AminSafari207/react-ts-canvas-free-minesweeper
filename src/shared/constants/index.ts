@@ -1,3 +1,3 @@
 export { minefieldLimits } from './game'
-export { panelUI } from './panelUI'
+export { panelUI } from './ui'
 export { storageKeys } from './storageKeys'

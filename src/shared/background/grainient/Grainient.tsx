@@ -1,32 +1,7 @@
 import { Mesh, Program, Renderer, Triangle } from 'ogl'
 import React, { useEffect, useRef } from 'react'
 import './Grainient.css'
-
-export interface GrainientProps {
-  timeSpeed?: number
-  colorBalance?: number
-  warpStrength?: number
-  warpFrequency?: number
-  warpSpeed?: number
-  warpAmplitude?: number
-  blendAngle?: number
-  blendSoftness?: number
-  rotationAmount?: number
-  noiseScale?: number
-  grainAmount?: number
-  grainScale?: number
-  grainAnimated?: boolean
-  contrast?: number
-  gamma?: number
-  saturation?: number
-  centerX?: number
-  centerY?: number
-  zoom?: number
-  color1?: string
-  color2?: string
-  color3?: string
-  className?: string
-}
+import { GrainientProps } from './types/Grainient'
 
 const hexToRgb = (hex: string): [number, number, number] => {
   const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
