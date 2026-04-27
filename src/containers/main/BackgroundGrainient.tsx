@@ -1,4 +1,7 @@
+import { useMemo } from 'react'
+import { useThemeMode } from 'src/core/theme'
 import { GrainientProps } from 'src/shared/background/grainient'
+import Grainient from 'src/shared/background/grainient/Grainient'
 import { stripHexAlpha } from 'src/shared/utils'
 
 export const createBackgroundGrainientProps = (isDark: boolean): GrainientProps => ({
@@ -12,3 +15,13 @@ export const createBackgroundGrainientProps = (isDark: boolean): GrainientProps 
   gamma: 1,
   saturation: 1,
 })
+
+export const BackgroundGrainient = () => {
+  const { mode } = useThemeMode()
+
+  const isDark = mode === 'dark'
+
+  const grainientProps: GrainientProps = useMemo(() => createBackgroundGrainientProps(isDark), [isDark])
+
+  return <Grainient {...grainientProps} />
+}

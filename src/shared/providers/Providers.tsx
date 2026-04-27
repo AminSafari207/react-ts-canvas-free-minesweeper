@@ -1,5 +1,5 @@
 import { PropsWithChildren, Suspense } from 'react'
-import { FullPageLoadingProvider, FullPageLoadingSuspenseFallback, LoadingState } from 'src/shared/loading'
+import { FullPageLoadingProvider, FullPageLoadingSuspenseFallback, LoadingState } from 'src/shared/loading'  
 import { BasicProviders } from './BasicProviders'
 import { MineFieldBootstrap } from './MineFieldBootstrap'
 
