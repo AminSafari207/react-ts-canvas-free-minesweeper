@@ -32,6 +32,15 @@ const CellBox = styled(Box, {
 })<CellBoxProps>(({ theme, isRevealed, isExploded }) => {
   const greyColor = theme.palette.grey
   const isDark = theme.palette.mode === 'dark'
+  const boxShadow = isRevealed
+    ? `
+      inset 2px 2px 0px rgba(0, 0, 0, 0.5)
+    `
+    : `
+      inset 2px 2px 0px rgba(255, 255, 255, 0.15),
+      inset -2px -2px 0px rgba(0, 0, 0, 0.4)
+    `
+
   let backgroundColor
 
   if (isExploded) backgroundColor = theme.palette.error.main
@@ -45,13 +54,8 @@ const CellBox = styled(Box, {
     width: minefieldUI.cellSize,
     height: minefieldUI.cellSize,
     userSelect: 'none',
-    boxShadow: `
-      inset 0 2px 0 rgba(255,255,255,0.15),
-      inset 0 -2px 0 rgba(0,0,0,0.6),
-      inset 2px 0 0 rgba(255,255,255,0.15),
-      inset -2px 0 0 rgba(0,0,0,0.6)
-    `,
     backgroundColor,
+    boxShadow,
   }
 })
 

@@ -8,7 +8,7 @@ const MineFieldBoard = lazy(() => import('src/features/minefield/components/Mine
 
 export default function MainContainer() {
   return (
-    <Suspense fallback={<FullPageLoadingSuspenseFallback />}>
+    <Suspense fallback={<FullPageLoadingSuspenseFallback loadingMessage='Loading Game...' />}>
       <MainLayout>
         <BackgroundRegion>
           <BackgroundGrainient />
