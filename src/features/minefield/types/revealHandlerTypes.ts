@@ -6,7 +6,7 @@ export type CreateHandleRevealCellParams = {
   isFlagged: boolean
 }
 
-export type CellClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => void
+export type CellClickHandler = (e: React.MouseEvent<HTMLDivElement>) => void
 
 export type CreateHandleRevealCellFn = ({ cellKey, cellType, isFlagged }: CreateHandleRevealCellParams) => CellClickHandler
 

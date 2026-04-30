@@ -1,3 +1,4 @@
+import { Palette } from '@mui/material'
 import { MineCounterValue } from 'src/core/game'
 import { CellClickHandler } from './revealHandlerTypes'
 import { LongPressHanlders } from './useCellLongPressTypes'
@@ -7,21 +8,22 @@ export type GetMineCounterColor = (value: MineCounterValue | null) => string
 export type MineFieldBoardGridCellProps = {
   rowIndex: number
   colIndex: number
-  getMineCounterColor: GetMineCounterColor
 }
 
 export interface CellBoxProps {
+  isRevealed: boolean
   isExploded?: boolean
 }
 
 export interface NonRevealedCellProps {
-  onClick: CellClickHandler
-  onContextMenu: (e: React.MouseEvent<HTMLButtonElement>) => void
-  longPressHandlers: LongPressHanlders
   isFlagged: boolean
+  onClick: CellClickHandler
+  onContextMenu: (e: React.MouseEvent<HTMLDivElement>) => void
+  longPressHandlers: LongPressHanlders
 }
 
-export type MineCounterCellComponentProps = {
-  counterValue: number | null
-  counterColor: string
+export type MineCounterDisplayProps = {
+  value: MineCounterValue | null
 }
+
+export type MuiPaletteSection = keyof Pick<Palette, 'primary' | 'secondary' | 'error' | 'warning' | 'info' | 'success'>

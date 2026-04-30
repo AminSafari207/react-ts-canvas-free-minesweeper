@@ -1,4 +1,3 @@
-
-export const panelUI = {
-  maxPageModalWidth: 1440,
+export const minefieldUI = {
+  cellSize: 50,
 } as const

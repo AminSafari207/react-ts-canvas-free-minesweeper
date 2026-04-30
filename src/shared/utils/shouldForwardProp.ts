@@ -7,4 +7,4 @@ export const shouldForwardPropWithWhiteList = (whiteList?: string[]) => (prop: s
   whiteList?.includes(prop) || shouldForwardProp(prop)
 
 export const shouldForwardPropWithBlackList = (blackList?: string[]) => (prop: string) =>
-  !blackList?.includes(prop) || shouldForwardProp(prop)
+  !blackList?.includes(prop) && shouldForwardProp(prop)

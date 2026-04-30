@@ -1,78 +1,41 @@
-import { alpha, Stack, useTheme } from '@mui/material'
-import { JSX, PropsWithChildren, useCallback, useMemo } from 'react'
-import { GameStatus, MineCounterValue } from 'src/core/game'
+import { styled } from '@mui/material'
+import { JSX, useMemo } from 'react'
+import { GameStatus } from 'src/core/game'
+import { BoardSurfaceProps, MineFieldBoardGridProps } from 'src/features/minefield/types/MineFieldBoardGridTypes'
 import { GlassyPaper } from 'src/shared/paper'
+import { shouldForwardPropWithBlackList } from 'src/shared/utils'
 import MineFieldBoardGridCell from './MineFieldBoardGridCell'
-import { GetMineCounterColor } from '../types/MineFieldBoardGridCellTypes'
-import { MineFieldBoardGridProps } from '../types/MineFieldBoardGridTypes'
 
-const RowWrapper = ({ children }: PropsWithChildren) => {
-  return <Stack direction="row">{children}</Stack>
-}
+const BoardSurface = styled(GlassyPaper, {
+  shouldForwardProp: shouldForwardPropWithBlackList(['colCount', 'gameStatus']),
+})<BoardSurfaceProps>(({ theme, colCount, gameStatus }) => {
+  const isPlaying = gameStatus === GameStatus.PLAYING
+  const borderColor = theme.palette.mode === 'dark' ? theme.palette.grey[700] : theme.palette.grey[400]
+
+  return {
+    display: 'grid',
+    gridTemplateColumns: `repeat(${colCount}, auto)`,
+    padding: 0,
+    minWidth: 'fit-content',
+    overflow: 'hidden',
+    pointerEvents: isPlaying ? 'auto' : 'none',
+    border: `0.75rem ridge ${borderColor}`,
+  }
+})
 
 export default function MineFieldBoardGrid({ rowCount, colCount, gameStatus }: MineFieldBoardGridProps) {
-  const theme = useTheme()
+  const renderCells: JSX.Element[] = useMemo(() => {
+    return Array.from({ length: rowCount * colCount }, (_, i) => {
+      const rowIndex = Math.floor(i / colCount)
+      const colIndex = i % colCount
 
-  const mode = theme.palette.mode === 'dark' ? 'light' : 'dark'
-
-  const mineCounterColorMap = useMemo<Record<MineCounterValue, string>>(
-    () => ({
-      1: theme.palette.primary[mode],
-      2: theme.palette.success[mode],
-      3: theme.palette.error[mode],
-      4: theme.palette.secondary[mode],
-      5: theme.palette.warning[mode],
-      6: theme.palette.info[mode],
-      7: theme.palette.secondary[mode],
-      8: theme.palette.error[mode],
-    }),
-    [mode]
-  )
-
-  const getMineCounterColor: GetMineCounterColor = useCallback(
-    (value) => {
-      if (value === null) return theme.palette.text.primary
-      return mineCounterColorMap[value] ?? theme.palette.text.primary
-    },
-    [mineCounterColorMap]
-  )
-
-  const renderRows: JSX.Element[] = useMemo(() => {
-    const rows: JSX.Element[] = []
-
-    for (let rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-      const cells: JSX.Element[] = []
-
-      for (let colIndex = 0; colIndex < colCount; colIndex++) {
-        cells.push(
-          <MineFieldBoardGridCell
-            key={`board-grid-cell-${rowIndex}-${colIndex}`}
-            rowIndex={rowIndex}
-            colIndex={colIndex}
-            getMineCounterColor={getMineCounterColor}
-          />
-        )
-      }
-
-      rows.push(<RowWrapper key={`board-grid-row-${rowIndex}`}>{cells}</RowWrapper>)
-    }
-
-    return rows
-  }, [rowCount, colCount, mode])
+      return <MineFieldBoardGridCell key={`board-grid-cell-${rowIndex}-${colIndex}`} rowIndex={rowIndex} colIndex={colIndex} />
+    })
+  }, [rowCount, colCount])
 
   return (
-    <GlassyPaper
-      sx={{
-        minWidth: 'fit-content',
-        p: 0,
-        overflow: 'hidden',
-        bgcolor: mode === 'dark' ? '#aeaeaeff' : '#525252ff',
-        pointerEvents: gameStatus !== GameStatus.PLAYING ? 'none' : 'auto',
-        border: `0.75rem ridge ${alpha(mode === 'dark' ? '#585858ff' : '#6f6f6fff', 0.9)}`,
-      }}
-      onContextMenu={(e) => e.preventDefault()}
-    >
-      {renderRows}
-    </GlassyPaper>
+    <BoardSurface colCount={colCount} gameStatus={gameStatus} onContextMenu={(e) => e.preventDefault()}>
+      {renderCells}
+    </BoardSurface>
   )
 }
