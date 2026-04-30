@@ -1,40 +1,32 @@
-import { Box, Skeleton, Stack } from '@mui/material'
+import { Box, Skeleton, styled } from '@mui/material'
 
-const mineFieldTemplate = Array.from({ length: 16 }, () => Array.from({ length: 16 }))
+const CELL_COUNT = 16
+
+const Board = styled(Skeleton)(({ theme }) => ({
+  width: 'calc(100vw - 10px)',
+  height: 'calc(100vw - 10px)',
+  maxWidth: 600,
+  maxHeight: 600,
+  border: `0.75rem ridge ${theme.alpha(theme.palette.grey[600], 0.5)}`,
+  borderRadius: '8px',
+  overflow: 'hidden',
+  display: 'grid',
+  gridTemplateColumns: `repeat(${CELL_COUNT}, 1fr)`,
+  gridTemplateRows: `repeat(${CELL_COUNT}, 1fr)`,
+  animationDuration: '1s',
+}))
+
+const Cell = styled(Box)(({ theme }) => ({
+  border: `1px solid ${theme.palette.grey[800]}`,
+  visibility: 'visible',
+}))
 
 export const MineFieldBoardGridSkeleton = () => {
   return (
-    <Skeleton
-      variant="rectangular"
-      sx={{
-        width: 'calc(100vw - 10px)',
-        height: 'calc(100vw - 10px)',
-        maxWidth: 600,
-        maxHeight: 600,
-        border: `0.75rem ridge rgba(131, 131, 131, 0.46)`,
-        borderRadius: 1,
-        overflow: 'hidden',
-        animationDuration: '0.75s',
-      }}
-    >
-      {mineFieldTemplate.map((row, rowIndex) => {
-        return (
-          <Stack key={`skeleton-grid-${rowIndex}`} direction="row" height={'calc(100% / 16)'}>
-            {row.map((_, colIndex) => (
-              <Box
-                key={`skeleton-grid-${rowIndex}-${colIndex}`}
-                sx={{
-                  width: 'calc(100% / 16)',
-                  height: '100%',
-                  border: '1px solid rgb(84, 84, 84)',
-                  color: 'transparent',
-                  visibility: 'visible',
-                }}
-              />
-            ))}
-          </Stack>
-        )
-      })}
-    </Skeleton>
+    <Board variant="rectangular">
+      {Array.from({ length: CELL_COUNT * CELL_COUNT }).map((_, i) => (
+        <Cell key={i} />
+      ))}
+    </Board>
   )
 }
