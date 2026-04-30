@@ -1,4 +1,4 @@
-import { CellKey, MineFieldCell, MineFieldRecord } from 'src/core/game'
+import { CellKey, MinefieldCell, MinefieldRecord } from 'src/core/game'
 import { StateCreator } from 'zustand'
 import { BoardSlice } from './types/boardSliceTypes'
 import { GameStore } from './types/gameStoreTypes'
@@ -25,7 +25,7 @@ export const createBoardSlice: StateCreator<GameStore, [], [], BoardSlice> = (se
 
   revealMultipleCells: (cellKeys) => {
     set((s) => {
-      const cellRecord: Record<CellKey, MineFieldCell> = {}
+      const cellRecord: Record<CellKey, MinefieldCell> = {}
       let cellRecordLength: number = 0
 
       cellKeys?.forEach((cellKey) => {
@@ -58,7 +58,7 @@ export const createBoardSlice: StateCreator<GameStore, [], [], BoardSlice> = (se
 
       const { members, borderCounters } = emptyRegions[regionId]
 
-      const cellRecord: MineFieldRecord = {}
+      const cellRecord: MinefieldRecord = {}
       let revealCount = 0
 
       for (let i = 0; i < members.length; i++) {

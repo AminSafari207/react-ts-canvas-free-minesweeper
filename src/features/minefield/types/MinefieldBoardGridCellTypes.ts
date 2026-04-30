@@ -5,7 +5,7 @@ import { LongPressHanlders } from './useCellLongPressTypes'
 
 export type GetMineCounterColor = (value: MineCounterValue | null) => string
 
-export type MineFieldBoardGridCellProps = {
+export type MinefieldBoardGridCellProps = {
   rowIndex: number
   colIndex: number
 }

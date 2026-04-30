@@ -21,7 +21,7 @@ const Cell = styled(Box)(({ theme }) => ({
   visibility: 'visible',
 }))
 
-export const MineFieldBoardGridSkeleton = () => {
+export const MinefieldBoardGridSkeleton = () => {
   return (
     <Board variant="rectangular">
       {Array.from({ length: CELL_COUNT * CELL_COUNT }).map((_, i) => (

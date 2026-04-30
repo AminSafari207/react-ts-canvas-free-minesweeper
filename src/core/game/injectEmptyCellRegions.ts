@@ -1,8 +1,8 @@
 import { minefieldLimits } from 'src/shared/constants'
 import { createBitmap } from 'src/shared/utils'
-import { coordsToCellKey, NEIGHBOR_OFFSETS } from './generateMineField'
+import { coordsToCellKey, NEIGHBOR_OFFSETS } from './generateMinefield'
 import { EmptyRegion, EmptyRegions } from './types/injectEmptyCellRegionsTypes'
-import { CellKey, CellType, MineFieldRecord } from './types/types'
+import { CellKey, CellType, MinefieldRecord } from './types/types'
 
 const DEFAULT_EMPTY_REGION_STATE: Pick<EmptyRegion, 'isRevealed'> = {
   isRevealed: false,
@@ -21,7 +21,7 @@ const isInside = (rowIndex: number, columnIndex: number, totalRows: number, tota
   return rowIndex >= 0 && rowIndex < totalRows && columnIndex >= 0 && columnIndex < totalCols
 }
 
-export const injectEmptyCellRegions = (totalRows: number, totalCols: number, minefield: MineFieldRecord): EmptyRegions => {
+export const injectEmptyCellRegions = (totalRows: number, totalCols: number, minefield: MinefieldRecord): EmptyRegions => {
   const emptyRegions: EmptyRegions = []
   const queue: number[] = []
 

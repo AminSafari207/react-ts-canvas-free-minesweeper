@@ -4,10 +4,10 @@ import { CellType, coordsToCellKey, MineCounterValue } from 'src/core/game'
 import {
   CellBoxProps,
   MineCounterDisplayProps,
-  MineFieldBoardGridCellProps,
+  MinefieldBoardGridCellProps,
   MuiPaletteSection,
   NonRevealedCellProps,
-} from 'src/features/minefield/types/MineFieldBoardGridCellTypes'
+} from 'src/features/minefield/types/MinefieldBoardGridCellTypes'
 import { minefieldUI } from 'src/shared/constants'
 import { useGameStore } from 'src/shared/store'
 import { shouldForwardPropWithBlackList } from 'src/shared/utils'
@@ -99,7 +99,7 @@ const MineCounterDisplay = styled(Box, { shouldForwardProp: shouldForwardPropWit
   }
 })
 
-export default function MineFieldBoardGridCell({ rowIndex, colIndex }: MineFieldBoardGridCellProps) {
+export default function MinefieldBoardGridCell({ rowIndex, colIndex }: MinefieldBoardGridCellProps) {
   const cellKey = coordsToCellKey(rowIndex, colIndex)
 
   const { cellState, toggleFlagCell } = useGameStore(

@@ -36,10 +36,10 @@ export interface MineCounterCell extends BaseCell {
   value: MineCounterValue
 }
 
-export type MineFieldCell = EmptyCell | MineCell | MineCounterCell
+export type MinefieldCell = EmptyCell | MineCell | MineCounterCell
 
-export type MineFieldRecord = Record<CellKey, MineFieldCell>
+export type MinefieldRecord = Record<CellKey, MinefieldCell>
 
-export type MineFieldCellArgProps = Partial<Omit<MineFieldCell, 'type'>>
+export type MinefieldCellArgProps = Partial<Omit<MinefieldCell, 'type'>>
 
 export type CellKey = `${number}_${number}`

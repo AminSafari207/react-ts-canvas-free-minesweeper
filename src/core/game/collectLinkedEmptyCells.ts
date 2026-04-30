@@ -1,9 +1,9 @@
-import { cellKeyToCoords, coordsToCellKey, NEIGHBOR_OFFSETS } from './generateMineField'
-import { CellKey, CellType, MineFieldRecord } from './types/types'
+import { cellKeyToCoords, coordsToCellKey, NEIGHBOR_OFFSETS } from './generateMinefield'
+import { CellKey, CellType, MinefieldRecord } from './types/types'
 
 const isInside = (r: number, c: number, rows: number, cols: number) => r >= 0 && r < rows && c >= 0 && c < cols
 
-export const collectLinkedEmptyCells = (startKey: CellKey, mineField: MineFieldRecord, rowCount: number, colCount: number): CellKey[] => {
+export const collectLinkedEmptyCells = (startKey: CellKey, minefield: MinefieldRecord, rowCount: number, colCount: number): CellKey[] => {
   const result: CellKey[] = []
   const visited = new Set<CellKey>()
   const queue: CellKey[] = [startKey]
@@ -15,7 +15,7 @@ export const collectLinkedEmptyCells = (startKey: CellKey, mineField: MineFieldR
     visited.add(key)
     result.push(key)
 
-    const cell = mineField[key]
+    const cell = minefield[key]
 
     if (cell.type !== CellType.EMPTY) continue
 
@@ -28,7 +28,7 @@ export const collectLinkedEmptyCells = (startKey: CellKey, mineField: MineFieldR
       if (!isInside(nr, nc, rowCount, colCount)) continue
 
       const neighborKey = coordsToCellKey(nr, nc)
-      const neighborCell = mineField[neighborKey]
+      const neighborCell = minefield[neighborKey]
 
       if (visited.has(neighborKey)) continue
       if (neighborCell.type === CellType.MINE) continue

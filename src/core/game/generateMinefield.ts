@@ -1,7 +1,7 @@
 import { buildEmptyCell, buildMineCell, buildMineCounterCell } from './buildCell'
 import { injectEmptyCellRegions } from './injectEmptyCellRegions'
-import { GeneratedMineFieldRecord } from './types/generateMineFieldTypes'
-import { CellKey, CellType, MineCounterValue, MineFieldRecord } from './types/types'
+import { GeneratedMinefieldRecord } from './types/generateMinefieldTypes'
+import { CellKey, CellType, MineCounterValue, MinefieldRecord } from './types/types'
 
 // prettier-ignore
 export const NEIGHBOR_OFFSETS = [
@@ -22,17 +22,17 @@ export const coordsToCellKey = (row: number, col: number): CellKey => {
   return `${row}_${col}`
 }
 
-const generateEmptyMineField = (rowCount: number, colCount: number): MineFieldRecord => {
-  const mineField: MineFieldRecord = {}
+const generateEmptyMinefield = (rowCount: number, colCount: number): MinefieldRecord => {
+  const minefield: MinefieldRecord = {}
 
   for (let row = 0; row < rowCount; row++) {
     for (let col = 0; col < colCount; col++) {
       const key: CellKey = `${row}_${col}`
-      mineField[key] = buildEmptyCell()
+      minefield[key] = buildEmptyCell()
     }
   }
 
-  return mineField
+  return minefield
 }
 
 const shuffleArray = <T>(array: T[]): T[] => {
@@ -48,7 +48,7 @@ const shuffleArray = <T>(array: T[]): T[] => {
   return array
 }
 
-const injectRandomMines = (rowCount: number, colCount: number, totalMines: number, mineField: MineFieldRecord): CellKey[] => {
+const injectRandomMines = (rowCount: number, colCount: number, totalMines: number, minefield: MinefieldRecord): CellKey[] => {
   const totalCells = rowCount * colCount
 
   if (totalMines < 1 || totalMines >= totalCells) {
@@ -68,7 +68,7 @@ const injectRandomMines = (rowCount: number, colCount: number, totalMines: numbe
 
   for (let i = 0; i < totalMines; i++) {
     const cellKey = coordsToCellKey(...shuffledCoordinates[i])
-    mineField[cellKey] = buildMineCell()
+    minefield[cellKey] = buildMineCell()
     shuffledCellKeys.push(cellKey)
   }
 
@@ -79,12 +79,12 @@ const isMineCounterValue = (value: number): value is MineCounterValue => {
   return value >= 1 && value <= 8
 }
 
-const injectMineCounters = (rowCount: number, colCount: number, mineField: MineFieldRecord): void => {
+const injectMineCounters = (rowCount: number, colCount: number, minefield: MinefieldRecord): void => {
   for (let row = 0; row < rowCount; row++) {
     for (let col = 0; col < colCount; col++) {
       const cellKey = coordsToCellKey(row, col)
 
-      if (mineField[cellKey]['type'] !== CellType.MINE) {
+      if (minefield[cellKey]['type'] !== CellType.MINE) {
         let neighborMineCount: MineCounterValue | 0 = 0
 
         for (const [dr, dc] of NEIGHBOR_OFFSETS) {
@@ -94,26 +94,26 @@ const injectMineCounters = (rowCount: number, colCount: number, mineField: MineF
           if (nr >= 0 && nr < rowCount && nc >= 0 && nc < colCount) {
             const neighborCellKey = coordsToCellKey(nr, nc)
 
-            if (mineField[neighborCellKey]['type'] === CellType.MINE) {
+            if (minefield[neighborCellKey]['type'] === CellType.MINE) {
               neighborMineCount++
             }
           }
         }
 
         if (isMineCounterValue(neighborMineCount)) {
-          mineField[cellKey] = buildMineCounterCell({ value: neighborMineCount })
+          minefield[cellKey] = buildMineCounterCell({ value: neighborMineCount })
         }
       }
     }
   }
 }
 
-export const generateMineField = (rowCount = 3, colCount = 3, totalMines = 3): GeneratedMineFieldRecord => {
-  const mineField = generateEmptyMineField(rowCount, colCount)
+export const generateMinefield = (rowCount = 3, colCount = 3, totalMines = 3): GeneratedMinefieldRecord => {
+  const minefield = generateEmptyMinefield(rowCount, colCount)
 
-  const randomMineCellKeys = injectRandomMines(rowCount, colCount, totalMines, mineField)
-  injectMineCounters(rowCount, colCount, mineField)
-  const emptyRegions = injectEmptyCellRegions(rowCount, colCount, mineField)
+  const randomMineCellKeys = injectRandomMines(rowCount, colCount, totalMines, minefield)
+  injectMineCounters(rowCount, colCount, minefield)
+  const emptyRegions = injectEmptyCellRegions(rowCount, colCount, minefield)
 
-  return { mineField, randomMineCellKeys, emptyRegions }
+  return { minefield, randomMineCellKeys, emptyRegions }
 }

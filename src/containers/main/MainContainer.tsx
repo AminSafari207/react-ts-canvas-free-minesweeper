@@ -4,11 +4,11 @@ import { FullPageLoadingSuspenseFallback } from 'src/shared/loading'
 import { BackgroundGrainient } from './BackgroundGrainient'
 
 const TopMenuBar = lazy(() => import('src/shared/top-menu-bar/TopMenuBar'))
-const MineFieldBoard = lazy(() => import('src/features/minefield/components/MineFieldBoard'))
+const MinefieldBoard = lazy(() => import('src/features/minefield/components/MinefieldBoard'))
 
 export default function MainContainer() {
   return (
-    <Suspense fallback={<FullPageLoadingSuspenseFallback loadingMessage='Loading Game...' />}>
+    <Suspense fallback={<FullPageLoadingSuspenseFallback loadingMessage="Loading Game..." />}>
       <MainLayout>
         <BackgroundRegion>
           <BackgroundGrainient />
@@ -17,7 +17,7 @@ export default function MainContainer() {
           <TopMenuBar />
         </TopMenuBarRegion>
         <ContentRegion>
-          <MineFieldBoard />
+          <MinefieldBoard />
         </ContentRegion>
       </MainLayout>
     </Suspense>

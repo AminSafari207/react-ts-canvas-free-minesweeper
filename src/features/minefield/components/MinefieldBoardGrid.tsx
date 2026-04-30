@@ -1,10 +1,10 @@
 import { styled } from '@mui/material'
 import { JSX, useMemo } from 'react'
 import { GameStatus } from 'src/core/game'
-import { BoardSurfaceProps, MineFieldBoardGridProps } from 'src/features/minefield/types/MineFieldBoardGridTypes'
+import { BoardSurfaceProps, MinefieldBoardGridProps } from 'src/features/minefield/types/MinefieldBoardGridTypes'
 import { GlassyPaper } from 'src/shared/paper'
 import { shouldForwardPropWithBlackList } from 'src/shared/utils'
-import MineFieldBoardGridCell from './MineFieldBoardGridCell'
+import MinefieldBoardGridCell from './MinefieldBoardGridCell'
 
 const BoardSurface = styled(GlassyPaper, {
   shouldForwardProp: shouldForwardPropWithBlackList(['colCount', 'gameStatus']),
@@ -23,13 +23,13 @@ const BoardSurface = styled(GlassyPaper, {
   }
 })
 
-export default function MineFieldBoardGrid({ rowCount, colCount, gameStatus }: MineFieldBoardGridProps) {
+export default function MinefieldBoardGrid({ rowCount, colCount, gameStatus }: MinefieldBoardGridProps) {
   const renderCells: JSX.Element[] = useMemo(() => {
     return Array.from({ length: rowCount * colCount }, (_, i) => {
       const rowIndex = Math.floor(i / colCount)
       const colIndex = i % colCount
 
-      return <MineFieldBoardGridCell key={`board-grid-cell-${rowIndex}-${colIndex}`} rowIndex={rowIndex} colIndex={colIndex} />
+      return <MinefieldBoardGridCell key={`board-grid-cell-${rowIndex}-${colIndex}`} rowIndex={rowIndex} colIndex={colIndex} />
     })
   }, [rowCount, colCount])
 

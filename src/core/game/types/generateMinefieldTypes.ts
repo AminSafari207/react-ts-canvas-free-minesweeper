@@ -1,8 +1,8 @@
 import { EmptyRegions } from './injectEmptyCellRegionsTypes'
-import { CellKey, MineFieldRecord } from './types'
+import { CellKey, MinefieldRecord } from './types'
 
-export type GeneratedMineFieldRecord = {
-  mineField: MineFieldRecord
+export type GeneratedMinefieldRecord = {
+  minefield: MinefieldRecord
   randomMineCellKeys: CellKey[]
   emptyRegions: EmptyRegions
 }
