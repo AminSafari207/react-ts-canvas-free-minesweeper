@@ -15,15 +15,14 @@ export enum GameStatus {
 
 export type MineCounterValue = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
 
-interface BaseCell {
-  type: CellType
+export interface BaseCell {
   isRevealed: boolean
   isFlagged: boolean
 }
 
 export interface EmptyCell extends BaseCell {
   type: CellType.EMPTY
-  regionId: number | undefined
+  regionId?: number
 }
 
 export interface MineCell extends BaseCell {

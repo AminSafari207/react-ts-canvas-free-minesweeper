@@ -1,4 +1,4 @@
-import { buildMineCounterCell } from '../buildCell'
+import { buildCell } from '../buildCell'
 import { coordsToCellKey } from '../cellKeyAndCoordsConversion'
 import { NEIGHBOR_OFFSETS } from '../gridNeighbor'
 import { CellType, MineCounterValue, MinefieldRecord } from '../types/types'
@@ -29,7 +29,7 @@ export const injectMineCounters = (rowCount: number, colCount: number, minefield
         }
 
         if (isMineCounterValue(neighborMineCount)) {
-          minefield[cellKey] = buildMineCounterCell({ value: neighborMineCount })
+          minefield[cellKey] = buildCell({ type: CellType.MINE_COUNTER, value: neighborMineCount })
         }
       }
     }

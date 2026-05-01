@@ -1,30 +1,25 @@
-import { CellType, EmptyCell, MineCell, MineCounterCell, MineCounterValue } from './types/types'
+import { BaseCell, CellType, EmptyCell, MineCell, MineCounterCell } from './types/types'
 
-const defaultBaseCellProps = {
+type WithoutBaseProps<T extends BaseCell> = Omit<T, keyof BaseCell>
+
+type CellsByType = {
+  [CellType.EMPTY]: EmptyCell
+  [CellType.MINE]: MineCell
+  [CellType.MINE_COUNTER]: MineCounterCell
+}
+
+type CellInput = {
+  [K in keyof CellsByType]: WithoutBaseProps<CellsByType[K]>
+}[keyof CellsByType]
+
+const defaultBaseCellProps: BaseCell = {
   isRevealed: false,
   isFlagged: false,
 }
 
-const defaultEmptyCellProps = { ...defaultBaseCellProps, regionId: undefined }
-
-const defaultMineCellProps = { ...defaultBaseCellProps }
-
-const defaultMineCounterCellProps = { ...defaultBaseCellProps }
-
-export const buildEmptyCell = (props?: Partial<Omit<EmptyCell, 'type'>>): EmptyCell => ({
-  type: CellType.EMPTY,
-  ...defaultEmptyCellProps,
-  ...props,
-})
-
-export const buildMineCell = (props?: Partial<Omit<MineCell, 'type'>>): MineCell => ({
-  type: CellType.MINE,
-  ...defaultMineCellProps,
-  ...props,
-})
-
-export const buildMineCounterCell = (props: Partial<Omit<MineCounterCell, 'type'>> & { value: MineCounterValue }): MineCounterCell => ({
-  type: CellType.MINE_COUNTER,
-  ...defaultMineCounterCellProps,
-  ...props,
-})
+export const buildCell = (input: CellInput): CellsByType[typeof input.type] => {
+  return {
+    ...defaultBaseCellProps,
+    ...input,
+  }
+}
