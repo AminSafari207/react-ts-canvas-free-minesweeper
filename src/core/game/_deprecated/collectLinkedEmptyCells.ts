@@ -1,6 +1,12 @@
-import { cellKeyToCoords, coordsToCellKey } from './cellKeyAndCoordsConversion'
-import { NEIGHBOR_OFFSETS } from './gridNeighbor'
-import { CellKey, CellType, MinefieldRecord } from './types/types'
+/**
+ * @deprecated
+ * Superseded by empty-region injection system.
+ * Left for reference only.
+ */
+
+import { cellKeyToCoords, coordsToCellKey } from '../cellKeyAndCoordsConversion'
+import { NEIGHBOR_OFFSETS } from '../gridNeighbor'
+import { CellKey, CellType, MinefieldRecord } from '../types/types'
 
 const isInside = (r: number, c: number, rows: number, cols: number) => r >= 0 && r < rows && c >= 0 && c < cols
 
