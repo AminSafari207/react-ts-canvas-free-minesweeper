@@ -1,5 +1,6 @@
+export { cellKeyToCoords, coordsToCellKey } from './cellKeyAndCoordsConversion'
 export { collectLinkedEmptyCells } from './collectLinkedEmptyCells'
-export { cellKeyToCoords, coordsToCellKey, generateMinefield } from './generateMinefield'
+export { generateMinefield } from './minefield-generation/generateMinefield'
 export type { EmptyRegions } from './types/injectEmptyCellRegionsTypes'
 export { CellType, GameStatus } from './types/types'
 export type {

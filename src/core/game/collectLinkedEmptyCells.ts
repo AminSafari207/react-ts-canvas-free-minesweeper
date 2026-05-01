@@ -1,4 +1,5 @@
-import { cellKeyToCoords, coordsToCellKey, NEIGHBOR_OFFSETS } from './generateMinefield'
+import { cellKeyToCoords, coordsToCellKey } from './cellKeyAndCoordsConversion'
+import { NEIGHBOR_OFFSETS } from './gridNeighbor'
 import { CellKey, CellType, MinefieldRecord } from './types/types'
 
 const isInside = (r: number, c: number, rows: number, cols: number) => r >= 0 && r < rows && c >= 0 && c < cols

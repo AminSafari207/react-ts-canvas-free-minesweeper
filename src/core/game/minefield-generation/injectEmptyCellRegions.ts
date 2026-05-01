@@ -1,12 +1,13 @@
 import { minefieldLimits } from 'src/shared/constants'
 import { createBitmap } from 'src/shared/utils'
-import { coordsToCellKey, NEIGHBOR_OFFSETS } from './generateMinefield'
-import { EmptyRegion, EmptyRegions } from './types/injectEmptyCellRegionsTypes'
-import { CellKey, CellType, MinefieldRecord } from './types/types'
+import { coordsToCellKey } from '../cellKeyAndCoordsConversion'
+import { NEIGHBOR_OFFSETS } from '../gridNeighbor'
+import { EmptyRegion, EmptyRegions } from '../types/injectEmptyCellRegionsTypes'
+import { CellKey, CellType, MinefieldRecord } from '../types/types'
 
 const DEFAULT_EMPTY_REGION_STATE: Pick<EmptyRegion, 'isRevealed'> = {
   isRevealed: false,
-}
+} as const
 
 const MAX_ROWS = minefieldLimits.dimensions.rows.max
 const MAX_COLS = minefieldLimits.dimensions.cols.max

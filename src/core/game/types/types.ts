@@ -43,3 +43,5 @@ export type MinefieldRecord = Record<CellKey, MinefieldCell>
 export type MinefieldCellArgProps = Partial<Omit<MinefieldCell, 'type'>>
 
 export type CellKey = `${number}_${number}`
+
+export type CellCoordinates = [number, number]
