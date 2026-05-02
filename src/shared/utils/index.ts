@@ -1,6 +1,5 @@
 export { createBitmap } from './bitmap'
 export { groupChildrenByType } from './groupChildrenByType'
-export { getThemeMode, setThemeMode } from './localStorage'
 export { shouldForwardProp, shouldForwardPropWithBlackList, shouldForwardPropWithWhiteList } from './shouldForwardProp'
 export { shuffleArray } from './shuffle'
 export { stripHexAlpha } from './stripHexAlpha'

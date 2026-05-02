@@ -1,7 +1,8 @@
 import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded'
 import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded'
 import { IconButton, styled } from '@mui/material'
-import { useThemeMode } from 'src/core/theme'
+import { useShallow } from 'zustand/shallow'
+import { useThemeStore } from '../store'
 import { shouldForwardPropWithBlackList } from '../utils'
 
 const DarkModeIconButton = styled(IconButton, { shouldForwardProp: shouldForwardPropWithBlackList(['whiteMode']) })<DarkModeSwitchProps>(
@@ -16,9 +17,9 @@ interface DarkModeSwitchProps {
 }
 
 export const DarkModeSwitch = ({ whiteMode }: DarkModeSwitchProps) => {
-  const { toggleColorMode, mode } = useThemeMode()
+  const { toggleColorMode, themeMode } = useThemeStore(useShallow((s) => ({ themeMode: s.themeMode, toggleColorMode: s.toggleThemeMode })))
 
-  const isDark = mode === 'dark'
+  const isDark = themeMode === 'dark'
 
   return (
     <DarkModeIconButton

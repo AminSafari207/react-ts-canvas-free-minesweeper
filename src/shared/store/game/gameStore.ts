@@ -15,7 +15,7 @@ export const useGameStore = create<GameStore>()(
       ...createTimerSlice(...a),
     }),
     {
-      name: 'minesweeper-data',
+      name: 'game-store',
       storage: createJSONStorage(() => localStorage),
       partialize: (s) => ({
         rowCount: s.rowCount,

@@ -12,43 +12,22 @@ import '@fontsource/roboto/600.css'
 // @ts-ignore
 import '@fontsource/roboto/700.css'
 
-import {
-  alpha,
-  createTheme,
-  CssBaseline,
-  PaletteOptions,
-  responsiveFontSizes,
-  ThemeOptions,
-  ThemeProvider,
-  useMediaQuery,
-} from '@mui/material'
-import { PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react'
-import { getThemeMode, setThemeMode } from 'src/shared/utils'
-import { ThemeContext } from './ThemeContext'
+import { alpha, createTheme, CssBaseline, PaletteOptions, responsiveFontSizes, ThemeOptions, ThemeProvider } from '@mui/material'
+import { PropsWithChildren, useMemo } from 'react'
+import { useThemeStore } from 'src/shared/store'
+import { useShallow } from 'zustand/shallow'
 
 createTheme({ typography: {} })
 
 export type ThemeProps = PropsWithChildren<{ emotionCache?: EmotionCache }>
 
-const themeMode = getThemeMode()
-
 export function Theme({ children, emotionCache }: ThemeProps) {
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
-
-  const [mode, setMode] = useState<'light' | 'dark'>(themeMode?.mode ?? (prefersDarkMode ? 'dark' : 'light'))
-
-  const toggleColorMode = useCallback((themeMode?: 'light' | 'dark') => {
-    setMode((prevMode) => themeMode ?? (prevMode === 'light' ? 'dark' : 'light'))
-  }, [])
-
-  useEffect(() => {
-    setThemeMode({ mode })
-  }, [mode])
+  const themeMode = useThemeStore(useShallow((s) => s.themeMode))
 
   const palette: PaletteOptions = useMemo(
     () => ({
       primary: {
-        main: mode === 'dark' ? '#648DE5' : '#3d58d3',
+        main: themeMode === 'dark' ? '#648DE5' : '#3d58d3',
       },
       secondary: {
         main: '#B1C8FA',
@@ -62,9 +41,9 @@ export function Theme({ children, emotionCache }: ThemeProps) {
       success: {
         main: '#00AC6B',
       },
-      background: { default: mode === 'dark' ? '#242424' : '#d3d3d3ff', paper: mode === 'dark' ? '#2d2d2d' : '#c2c2c2ff' },
+      background: { default: themeMode === 'dark' ? '#242424' : '#d3d3d3ff', paper: themeMode === 'dark' ? '#2d2d2d' : '#c2c2c2ff' },
       common:
-        mode === 'dark'
+        themeMode === 'dark'
           ? {
               black: '#FFFFFF',
               white: '#242424',
@@ -73,10 +52,10 @@ export function Theme({ children, emotionCache }: ThemeProps) {
               white: '#FFFFFF',
               black: '#242424',
             },
-      paper: mode === 'dark' ? '#2d2d2d' : '#b8b8b8ff',
-      mode,
+      paper: themeMode === 'dark' ? '#2d2d2d' : '#b8b8b8ff',
+      mode: themeMode,
     }),
-    [mode]
+    [themeMode]
   )
 
   const fontFamily = [
@@ -160,15 +139,13 @@ export function Theme({ children, emotionCache }: ThemeProps) {
     })
 
     return responsiveFontSizes(base)
-  }, [mode])
+  }, [themeMode])
 
   const themeContainer = (
-    <ThemeContext.Provider value={{ mode, toggleColorMode }}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline enableColorScheme />
-        {children}
-      </ThemeProvider>
-    </ThemeContext.Provider>
+    <ThemeProvider theme={theme}>
+      <CssBaseline enableColorScheme />
+      {children}
+    </ThemeProvider>
   )
 
   return emotionCache ? <CacheProvider value={emotionCache}>{themeContainer}</CacheProvider> : themeContainer
