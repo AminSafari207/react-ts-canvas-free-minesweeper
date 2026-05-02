@@ -2,8 +2,9 @@ import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded'
 import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded'
 import { IconButton, styled } from '@mui/material'
 import { useThemeMode } from 'src/core/theme'
+import { shouldForwardPropWithBlackList } from '../utils'
 
-const DarkModeIconButton = styled(IconButton, { shouldForwardProp: (prop) => prop !== 'whiteMode' })<DarkModeSwitchProps>(
+const DarkModeIconButton = styled(IconButton, { shouldForwardProp: shouldForwardPropWithBlackList(['whiteMode']) })<DarkModeSwitchProps>(
   ({ theme, whiteMode }) => ({
     padding: 0,
     color: whiteMode && theme.palette.mode === 'light' ? theme.palette.common.white : theme.palette.info.main,
