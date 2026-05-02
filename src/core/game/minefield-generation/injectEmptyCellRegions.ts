@@ -1,7 +1,7 @@
 import { minefieldLimits } from 'src/shared/constants'
 import { createBitmap } from 'src/shared/utils'
-import { coordsToCellKey } from '../cellKeyAndCoordsConversion'
-import { NEIGHBOR_OFFSETS } from '../gridNeighbor'
+import { coordsToCellKey } from '../cellCordinates'
+import { NEIGHBOR_OFFSETS } from '../gridNeighbors'
 import { EmptyRegion, EmptyRegions } from '../types/injectEmptyCellRegionsTypes'
 import { CellKey, CellType, MinefieldRecord } from '../types/types'
 

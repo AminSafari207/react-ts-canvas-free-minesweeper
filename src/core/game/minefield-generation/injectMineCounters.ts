@@ -1,6 +1,6 @@
 import { buildCell } from '../buildCell'
-import { coordsToCellKey } from '../cellKeyAndCoordsConversion'
-import { NEIGHBOR_OFFSETS } from '../gridNeighbor'
+import { coordsToCellKey } from '../cellCordinates'
+import { NEIGHBOR_OFFSETS } from '../gridNeighbors'
 import { CellType, MineCounterValue, MinefieldRecord } from '../types/types'
 
 const isMineCounterValue = (value: number): value is MineCounterValue => {

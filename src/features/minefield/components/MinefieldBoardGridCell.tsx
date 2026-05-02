@@ -14,7 +14,7 @@ import { shouldForwardPropWithBlackList } from 'src/shared/utils'
 import { useShallow } from 'zustand/shallow'
 import { FlagWithAnimation } from './FlagWithAnimation'
 import { useCellLongPress } from './hooks/useCellLongPress'
-import { createHandleRevealCell } from './reveal-handler/createHandleRevealCell'
+import { createHandleRevealCell } from './reveal/createHandleRevealCell'
 
 const COUNTER_COLORS = {
   1: 'primary',

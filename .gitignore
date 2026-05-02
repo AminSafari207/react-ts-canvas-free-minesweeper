@@ -3,6 +3,7 @@ node_modules
 locales
 out
 dist
+_deprecateds
 
 # Files
 .env

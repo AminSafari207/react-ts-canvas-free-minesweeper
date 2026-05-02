@@ -1,6 +1,6 @@
 import { shuffleArray } from 'src/shared/utils'
 import { buildCell } from '../buildCell'
-import { coordsToCellKey } from '../cellKeyAndCoordsConversion'
+import { coordsToCellKey } from '../cellCordinates'
 import { CellCoordinates, CellKey, CellType, MinefieldRecord } from '../types/types'
 
 export const injectRandomMines = (rowCount: number, colCount: number, totalMines: number, minefield: MinefieldRecord): CellKey[] => {
