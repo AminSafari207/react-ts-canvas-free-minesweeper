@@ -24,8 +24,8 @@ interface CustomModalOptions extends BaseModalOptions {
   DialogProps?: Partial<React.ComponentProps<typeof Dialog>>
 }
 
-type ModalVariant = 'simple' | 'custom'
-type ModalOptions = SimpleModalOptions | CustomModalOptions
+export type ModalVariant = 'simple' | 'custom'
+export type ModalOptions = SimpleModalOptions | CustomModalOptions
 
 interface ModalState {
   open: boolean

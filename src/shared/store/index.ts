@@ -7,5 +7,6 @@ export type {
   FullPageLoadingVisibility,
 } from './loading/types/fullPageLoadingSliceTypes'
 export { useLoadingStore } from './loading/useLoadingStore'
+export type { ModalOptions, ModalVariant } from './modal/types/modalStoreTypes'
 export { useModalStore } from './modal/useModalStore'
 export { useThemeStore } from './theme/useThemeStore'
