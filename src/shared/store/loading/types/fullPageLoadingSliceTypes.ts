@@ -4,15 +4,15 @@ export type FullPageLoadingVisibility = 'hidden' | 'visible'
 
 type WithTheme<T> = T | ((theme: Theme) => T)
 
-type FullPageLoadingBackdropResolved =
+export type FullPageLoadingOptionsBackdropResolved =
   | { kind: 'none' }
   | { kind: 'solid'; color?: string; opacity: number }
   | { kind: 'blur'; amount?: number | string; color?: string; opacity?: number }
 
-export type FullPageLoadingBackdrop = WithTheme<FullPageLoadingBackdropResolved>
+export type FullPageLoadingOptionsBackdrop = WithTheme<FullPageLoadingOptionsBackdropResolved>
 
 export type FullPageLoadingOptions = {
-  backdrop: FullPageLoadingBackdrop
+  backdrop: FullPageLoadingOptionsBackdrop
 }
 
 type ShowDefaultFullPageLoadingProps = {

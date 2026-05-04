@@ -1,5 +1,5 @@
 export { FullPageLoading } from './FullPageLoading'
-export { FullPageLoadingProvider } from './FullPageLoadingProvider'
+export { FullPageLoadingHost } from './FullPageLoadingHost'
 export { FullPageLoadingSuspenseFallback } from './FullPageLoadingSuspenseFallback'
 export { LoadingState } from './LoadingContext'
 export { LoadingSuspenseFallback } from './LoadingSuspenseFallback'

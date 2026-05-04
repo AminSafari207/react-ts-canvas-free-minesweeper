@@ -1,100 +1,66 @@
-import { alpha, CircularProgress, styled } from '@mui/material'
-import { useEffect, useRef, useState } from 'react'
-import { CSSTransition } from 'react-transition-group'
-import { fadeEnterAndExit } from 'src/shared/transition'
+import { CircularProgress, Fade, styled } from '@mui/material'
+import { memo } from 'react'
+import { shouldForwardPropWithBlackList } from 'src/shared/utils'
 import { AnimatedLoadingText } from './AnimatedLoadingText'
-import { LoadingState } from './LoadingContext'
-
-// const FullPageLoadingContainer = styled('div')<{ hasBackground: boolean; showBackground: boolean }>(
-//   ({ theme, hasBackground, showBackground }) => ({
-//     position: 'fixed',
-//     inset: 0,
-//     zIndex: theme.zIndex.modal + 1,
-//     display: 'flex',
-//     flexDirection: 'column',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     backgroundColor: hasBackground || showBackground ? alpha('#000000', 0.3) : 'transparent',
-//     backdropFilter: 'blur(6px)',
-
-//     ...fadeEnterAndExit(theme),
-//   })
-// )
+import { resolveBackdropOptions } from './helpers/resolveBackdropOptions'
+import { FullPageLoadingBackdropProps, FullPageLoadingProps } from './types/FullPageLoadingTypes'
 
 export const Spinner = styled(CircularProgress)(({ theme }) => ({
   color: theme.palette.primary.main,
   marginBottom: theme.spacing(4),
-
-  ...fadeEnterAndExit(theme),
 }))
 
-export interface FullPageLoadingProps {
-  loadingState: LoadingState
-  loadingMessage?: string
-}
+const FullPageLoadingBackdrop = styled('div', {
+  shouldForwardProp: shouldForwardPropWithBlackList(['options']),
+})<FullPageLoadingBackdropProps>(({ theme, options }) => {
+  const resolvedOptions = resolveBackdropOptions(options, theme)
 
-// export function FullPageLoading({ loadingState, loadingMessage }: FullPageLoadingProps) {
-//   const [showBackground, setShowBackground] = useState(false)
+  return {
+    position: 'fixed',
+    zIndex: theme.zIndex.modal + 1,
+    inset: 0,
 
-//   const nodeRef = useRef(null)
-//   const isVisible = loadingState !== LoadingState.HIDE
-//   const hasBackground = loadingState === LoadingState.SHOW
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    
+    pointerEvents: 'all',
+    willChange: 'backdrop-filter',
 
-//   useEffect(() => {
-//     if (loadingState === LoadingState.SHOW) {
-//       setShowBackground(true)
-//     }
-//   }, [loadingState])
+    ...(resolvedOptions.kind === 'none' && {
+      background: 'none',
+      backdropFilter: 'none',
+    }),
 
-//   const handleOnExited = () => {
-//     setShowBackground(false)
-//   }
+    ...(resolvedOptions.kind === 'solid' && {
+      backdropFilter: 'none',
+      backgroundColor: theme.alpha(resolvedOptions.color ?? theme.palette.grey[700], resolvedOptions.opacity ?? 0.4),
+    }),
 
-//   return (
-//     <CSSTransition in={isVisible} timeout={300} classNames="fade" unmountOnExit nodeRef={nodeRef} onExited={handleOnExited}>
-//       <FullPageLoadingContainer ref={nodeRef} hasBackground={hasBackground} showBackground={showBackground}>
-//         <Spinner size={80} thickness={4} />
-//         {loadingMessage && <AnimatedLoadingText text={loadingMessage} />}
-//       </FullPageLoadingContainer>
-//     </CSSTransition>
-//   )
-// }
-
-const FullPageLoadingContainer = styled('div')<{ visibleBackground: boolean }>(({ theme, visibleBackground }) => ({
-  position: 'fixed',
-  inset: 0,
-  zIndex: theme.zIndex.modal + 1,
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: visibleBackground ? alpha('#000000', 0.3) : 'transparent',
-  backdropFilter: visibleBackground ? 'blur(6px)' : 'none',
-  ...fadeEnterAndExit(theme),
-}))
-
-export function FullPageLoading({ loadingState, loadingMessage }: FullPageLoadingProps) {
-  const [visibleBackground, setVisibleBackground] = useState(false)
-  const nodeRef = useRef(null)
-
-  const isVisible = loadingState !== LoadingState.HIDE
-
-  useEffect(() => {
-    if (loadingState === LoadingState.SHOW) {
-      setVisibleBackground(true)
-    }
-  }, [loadingState])
-
-  const handleOnExited = () => {
-    setVisibleBackground(false)
+    ...(resolvedOptions.kind === 'blur' && {
+      backdropFilter: `blur(${resolvedOptions.amount ?? 8}px)`,
+      backgroundColor:
+        resolvedOptions.color && resolvedOptions.opacity != null
+          ? theme.alpha(resolvedOptions.color, resolvedOptions.opacity)
+          : 'transparent',
+    }),
   }
+})
 
-  return (
-    <CSSTransition in={isVisible} timeout={300} classNames="fade" unmountOnExit nodeRef={nodeRef} onExited={handleOnExited}>
-      <FullPageLoadingContainer ref={nodeRef} visibleBackground={visibleBackground}>
-        <Spinner size={80} thickness={4} />
-        {loadingMessage && <AnimatedLoadingText text={loadingMessage} />}
-      </FullPageLoadingContainer>
-    </CSSTransition>
-  )
-}
+export const FullPageLoading = memo(
+  (props: FullPageLoadingProps) => {
+    const message = props.message
+    const isVisible = props.visibility === 'visible'
+
+    return (
+      <Fade in={isVisible} timeout={200} unmountOnExit>
+        <FullPageLoadingBackdrop options={props.options.backdrop}>
+          <Spinner size={80} thickness={4} />
+          {message && <AnimatedLoadingText text={message} />}
+        </FullPageLoadingBackdrop>
+      </Fade>
+    )
+  },
+  (prev, next) => prev.visibility === next.visibility && prev.options === next.options && prev.message === next.message
+)

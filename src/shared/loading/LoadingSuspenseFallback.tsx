@@ -1,7 +1,5 @@
-import { CircularProgress, styled } from '@mui/material'
+import { CircularProgress, Fade, styled } from '@mui/material'
 import { useRef } from 'react'
-import { CSSTransition } from 'react-transition-group'
-import { fadeEnterAndExit } from 'src/shared/transition'
 import { AnimatedLoadingText } from './AnimatedLoadingText'
 import { LoadingState } from './LoadingContext'
 
@@ -19,13 +17,11 @@ const FixedLoadingContainer = styled('div')<{ hasBackground: boolean }>(({ theme
   backgroundColor: hasBackground ? theme.palette.action.hover : 'transparent',
   backdropFilter: hasBackground ? 'blur(6px)' : 'none',
   zIndex: theme.zIndex.modal + 1,
-  ...fadeEnterAndExit(theme),
 }))
 
 const Spinner = styled(CircularProgress)(({ theme }) => ({
   color: theme.palette.primary.main,
   marginBottom: theme.spacing(2),
-  ...fadeEnterAndExit(theme),
 }))
 
 export interface LoadingSuspenseFallbackProps {
@@ -39,11 +35,11 @@ export function LoadingSuspenseFallback({ loadingState, loadingMessage }: Loadin
   const hasBackground = loadingState === LoadingState.SHOW
 
   return (
-    <CSSTransition in={isVisible} timeout={300} classNames="fade" unmountOnExit nodeRef={nodeRef}>
+    <Fade timeout={200} unmountOnExit>
       <FixedLoadingContainer ref={nodeRef} hasBackground={hasBackground}>
         <Spinner size={80} thickness={4} />
         {loadingMessage && <AnimatedLoadingText text={loadingMessage} />}
       </FixedLoadingContainer>
-    </CSSTransition>
+    </Fade>
   )
 }

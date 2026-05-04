@@ -7,9 +7,9 @@ const DEFAULT_MESSAGE = 'Loading App...'
 const createDefaultOptions = (): FullPageLoadingOptions => ({
   backdrop: (theme) => ({
     kind: 'blur',
-    amount: theme.spacing(2),
-    color: theme.palette.grey[700],
-    opacity: 0.4,
+    amount: 8,
+    color: theme.palette.grey[900],
+    opacity: 0.5,
   }),
 })
 
@@ -39,10 +39,7 @@ export const createFullPageLoadingSlice: StateCreator<LoadingStore, [], [], Full
   },
 
   closeFullPageLoading: () => {
-    set({
-      fullPageLoadingVisibility: 'hidden',
-      fullPageLoadingMessage: DEFAULT_MESSAGE,
-    })
+    set({ fullPageLoadingVisibility: 'hidden' })
   },
 
   changeFullPageLoadingMessage: (message) => set({ fullPageLoadingMessage: message }),
