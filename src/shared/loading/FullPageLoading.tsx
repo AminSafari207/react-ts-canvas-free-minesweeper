@@ -5,6 +5,9 @@ import { AnimatedLoadingText } from './AnimatedLoadingText'
 import { resolveBackdropOptions } from './helpers/resolveBackdropOptions'
 import { FullPageLoadingBackdropProps, FullPageLoadingProps } from './types/FullPageLoadingTypes'
 
+const DEFAULT_BACKDROP_OPACITY = 0.4
+const DEFAULT_BACKDROP_BLUR = 16
+
 export const Spinner = styled(CircularProgress)(({ theme }) => ({
   color: theme.palette.primary.main,
   marginBottom: theme.spacing(4),
@@ -24,7 +27,7 @@ const FullPageLoadingBackdrop = styled('div', {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-    
+
     pointerEvents: 'all',
     willChange: 'backdrop-filter',
 
@@ -35,11 +38,11 @@ const FullPageLoadingBackdrop = styled('div', {
 
     ...(resolvedOptions.kind === 'solid' && {
       backdropFilter: 'none',
-      backgroundColor: theme.alpha(resolvedOptions.color ?? theme.palette.grey[700], resolvedOptions.opacity ?? 0.4),
+      backgroundColor: theme.alpha(resolvedOptions.color ?? theme.palette.grey[700], resolvedOptions.opacity ?? DEFAULT_BACKDROP_OPACITY),
     }),
 
     ...(resolvedOptions.kind === 'blur' && {
-      backdropFilter: `blur(${resolvedOptions.amount ?? 8}px)`,
+      backdropFilter: `blur(${resolvedOptions.amount ?? DEFAULT_BACKDROP_BLUR}px)`,
       backgroundColor:
         resolvedOptions.color && resolvedOptions.opacity != null
           ? theme.alpha(resolvedOptions.color, resolvedOptions.opacity)

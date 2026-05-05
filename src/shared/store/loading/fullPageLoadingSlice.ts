@@ -7,9 +7,9 @@ const DEFAULT_MESSAGE = 'Loading App...'
 const createDefaultOptions = (): FullPageLoadingOptions => ({
   backdrop: (theme) => ({
     kind: 'blur',
-    amount: 8,
+    amount: 16,
     color: theme.palette.grey[900],
-    opacity: 0.5,
+    opacity: 0.4,
   }),
 })
 
