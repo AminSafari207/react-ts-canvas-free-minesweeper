@@ -14,7 +14,6 @@ import { shouldForwardPropWithBlackList } from 'src/shared/utils'
 import { useShallow } from 'zustand/shallow'
 import { FlagWithAnimation } from './FlagWithAnimation'
 import { useCellLongPress } from './hooks/useCellLongPress'
-import { createHandleRevealCell } from './reveal/createHandleRevealCell'
 
 const COUNTER_COLORS = {
   1: 'primary',
@@ -102,10 +101,11 @@ const MineCounterDisplay = styled(Box, { shouldForwardProp: shouldForwardPropWit
 export default function MinefieldBoardGridCell({ rowIndex, colIndex }: MinefieldBoardGridCellProps) {
   const cellKey = coordsToCellKey(rowIndex, colIndex)
 
-  const { cellState, toggleFlagCell } = useGameStore(
+  const { cellState, toggleFlagCell, revealCell } = useGameStore(
     useShallow((s) => ({
       cellState: s.cells[cellKey],
       toggleFlagCell: s.toggleFlagCell,
+      revealCell: s.revealCellWithEffects,
     }))
   )
 
@@ -119,7 +119,13 @@ export default function MinefieldBoardGridCell({ rowIndex, colIndex }: Minefield
 
   const longPressHandlers = useCellLongPress(() => toggleFlagCell(cellKey), 200)
 
-  const handleRevealCell = useCallback(createHandleRevealCell({ cellKey, cellType, isFlagged }), [cellKey, cellType, isFlagged])
+  const handleRevealCell = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault()
+      revealCell(cellKey)
+    },
+    [cellKey]
+  )
 
   const handleContextMenu = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {

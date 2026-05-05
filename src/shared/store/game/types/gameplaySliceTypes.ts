@@ -1,4 +1,4 @@
-import { GameStatus } from 'src/core/game'
+import { CellKey, GameStatus } from 'src/core/game'
 
 export interface GameplaySlice {
   gameStatus: GameStatus
@@ -6,4 +6,5 @@ export interface GameplaySlice {
   changeGameStatus: (newGameStatus: GameStatus) => void
   startNewGame: () => void
   pauseGame: () => void
+  revealCellWithEffects: (cellKey: CellKey) => void
 }
