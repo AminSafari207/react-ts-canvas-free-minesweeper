@@ -109,7 +109,7 @@ export const createBoardSlice: StateCreator<GameStore, [], [], BoardSlice> = (se
   },
 
   toggleFlagCell: (cellKey) => {
-    set((s) => ({ cells: { ...s.cells, [cellKey]: { ...s.cells[cellKey], isFlagged: !s.cells[cellKey]['isFlagged'] } } }))
+    set((s) => ({ cells: { ...s.cells, [cellKey]: { ...s.cells[cellKey], isFlagged: !s.cells[cellKey].isFlagged } } }))
   },
 
   hasWon: () => {
