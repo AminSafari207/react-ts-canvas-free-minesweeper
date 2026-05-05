@@ -50,7 +50,7 @@ export const createBoardSlice: StateCreator<GameStore, [], [], BoardSlice> = (se
 
   revealEmptyRegion: (regionId) => {
     set((s) => {
-      const emptyRegions = s.emptyRegions
+      const emptyRegions = [...s.emptyRegions]
 
       if (regionId < 0 || regionId >= emptyRegions.length) {
         throw new RangeError(`Invalid regionId: ${regionId}`)
@@ -83,7 +83,10 @@ export const createBoardSlice: StateCreator<GameStore, [], [], BoardSlice> = (se
 
       if (revealCount === 0) return s
 
-      emptyRegions[regionId].isRevealed = true
+      emptyRegions[regionId] = {
+        ...emptyRegions[regionId],
+        isRevealed: true,
+      }
 
       return {
         cells: { ...s.cells, ...cellRecord },
