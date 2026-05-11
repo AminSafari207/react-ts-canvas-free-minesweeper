@@ -18,8 +18,8 @@ export const useGameStore = create<GameStore>()(
       name: 'game-store',
       storage: createJSONStorage(() => localStorage),
       partialize: (s) => ({
-        rowCount: s.rowCount,
-        colCount: s.colCount,
+        totalRows: s.totalRows,
+        totalColumns: s.totalColumns,
         totalMines: s.totalMines,
       }),
       version: 1,

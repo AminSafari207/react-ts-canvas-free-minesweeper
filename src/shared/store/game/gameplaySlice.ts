@@ -1,4 +1,5 @@
-import { CellType, GameStatus, generateMinefield } from 'src/core/game'
+import { CellType, GameStatus } from 'src/core/game'
+import { cancelAllMinefieldWorkers, generateMinefieldWorker } from 'src/workers'
 import { StateCreator } from 'zustand'
 import { GameStore } from './types/gameStoreTypes'
 import { GameplaySlice } from './types/gameplaySliceTypes'
@@ -11,27 +12,58 @@ export const createGameplaySlice: StateCreator<GameStore, [], [], GameplaySlice>
   },
 
   startNewGame: () => {
-    const { gameStatus } = get()
+    // const { gameStatus } = get()
+
+    // if (gameStatus === GameStatus.LOADING) return
+
+    // set({ gameStatus: GameStatus.LOADING })
+
+    // setTimeout(() => {
+    //   const { totalRows, totalColumns, totalMines, resetTimer, startTimer } = get()
+    //   const { minefield, randomMineCellKeys, emptyRegions } = generateMinefield(totalRows, totalColumns, totalMines)
+
+    //   resetTimer()
+    //   set({
+    //     cells: minefield,
+    //     randomMineCellKeys,
+    //     emptyRegions,
+    //     revealedSafeCells: 0,
+    //     totalNonMineCells: Math.max(10, totalRows * totalColumns - totalMines),
+    //     gameStatus: GameStatus.PLAYING,
+    //   })
+    //   startTimer()
+    // }, 1000)
+
+    const { gameStatus, totalRows, totalColumns, totalMines } = get()
 
     if (gameStatus === GameStatus.LOADING) return
 
     set({ gameStatus: GameStatus.LOADING })
 
-    setTimeout(() => {
-      const { rowCount, colCount, totalMines, resetTimer, startTimer } = get()
-      const { minefield, randomMineCellKeys, emptyRegions } = generateMinefield(rowCount, colCount, totalMines)
+    cancelAllMinefieldWorkers()
+    generateMinefieldWorker(totalRows, totalColumns, totalMines)
+      .then(({ minefield, randomMineCellKeys, emptyRegions }) => {
+        setTimeout(() => {
+          const { resetTimer, startTimer } = get()
 
-      resetTimer()
-      set({
-        cells: minefield,
-        randomMineCellKeys,
-        emptyRegions,
-        revealedSafeCells: 0,
-        totalNonMineCells: Math.max(10, rowCount * colCount - totalMines),
-        gameStatus: GameStatus.PLAYING,
+          resetTimer()
+
+          set({
+            cells: minefield,
+            randomMineCellKeys,
+            emptyRegions,
+            revealedSafeCells: 0,
+            totalNonMineCells: totalRows * totalColumns - totalMines,
+            gameStatus: GameStatus.PLAYING,
+          })
+
+          startTimer()
+        }, 1000)
       })
-      startTimer()
-    }, 0)
+      .catch((error) => {
+        console.error('Minefield generation failed:', error)
+        set({ gameStatus: GameStatus.IDLE })
+      })
   },
 
   pauseGame: () => {}, // TODO

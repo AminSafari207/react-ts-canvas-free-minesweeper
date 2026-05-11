@@ -8,7 +8,7 @@ const MAX_ZOOM = 2.0
 const VERTICAL_MARGIN = 120
 const MOVE_THRESHOLD = 4
 
-export const ZoomPanPinchWrapper = ({ children, rowCount }: ZoomPanPinchWrapperProps) => {
+export const ZoomPanPinchWrapper = ({ children, totalRows }: ZoomPanPinchWrapperProps) => {
   const transformRef = useRef<ReactZoomPanPinchRef | null>(null)
   const boardRef = useRef<HTMLDivElement | null>(null)
 
@@ -31,7 +31,7 @@ export const ZoomPanPinchWrapper = ({ children, rowCount }: ZoomPanPinchWrapperP
 
     let initialScale: number
 
-    if (boardW <= vw && rowCount <= 12) {
+    if (boardW <= vw && totalRows <= 12) {
       initialScale = 1.1
     } else {
       initialScale = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, Math.min(availableW / boardW, availableH / boardH)))

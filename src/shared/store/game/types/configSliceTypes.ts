@@ -1,10 +1,10 @@
-type ApplyGameConfigOptions = { rowCount?: number; colCount?: number; totalMines?: number }
+type ApplyGameConfigOptions = { totalRows?: number; totalColumns?: number; totalMines?: number }
 
 export interface ConfigSlice {
-  rowCount: number
-  colCount: number
+  totalRows: number
+  totalColumns: number
   totalMines: number
   flagLimit: number
 
-  applyGameConfig: ({ rowCount, colCount, totalMines }: ApplyGameConfigOptions) => void
+  applyGameConfig: ({ totalRows, totalColumns, totalMines }: ApplyGameConfigOptions) => void
 }

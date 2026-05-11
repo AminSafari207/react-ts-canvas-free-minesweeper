@@ -7,14 +7,14 @@ import { shouldForwardPropWithBlackList } from 'src/shared/utils'
 import MinefieldBoardGridCell from './MinefieldBoardGridCell'
 
 const BoardSurface = styled(GlassyPaper, {
-  shouldForwardProp: shouldForwardPropWithBlackList(['colCount', 'gameStatus']),
-})<BoardSurfaceProps>(({ theme, colCount, gameStatus }) => {
+  shouldForwardProp: shouldForwardPropWithBlackList(['totalColumns', 'gameStatus']),
+})<BoardSurfaceProps>(({ theme, totalColumns, gameStatus }) => {
   const isPlaying = gameStatus === GameStatus.PLAYING
   const borderColor = theme.palette.mode === 'dark' ? theme.palette.grey[700] : theme.palette.grey[400]
 
   return {
     display: 'grid',
-    gridTemplateColumns: `repeat(${colCount}, auto)`,
+    gridTemplateColumns: `repeat(${totalColumns}, auto)`,
     padding: 0,
     minWidth: 'fit-content',
     overflow: 'hidden',
@@ -23,18 +23,18 @@ const BoardSurface = styled(GlassyPaper, {
   }
 })
 
-export default function MinefieldBoardGrid({ rowCount, colCount, gameStatus }: MinefieldBoardGridProps) {
+export default function MinefieldBoardGrid({ totalRows, totalColumns, gameStatus }: MinefieldBoardGridProps) {
   const renderCells: JSX.Element[] = useMemo(() => {
-    return Array.from({ length: rowCount * colCount }, (_, i) => {
-      const rowIndex = Math.floor(i / colCount)
-      const colIndex = i % colCount
+    return Array.from({ length: totalRows * totalColumns }, (_, i) => {
+      const rowIndex = Math.floor(i / totalColumns)
+      const colIndex = i % totalColumns
 
       return <MinefieldBoardGridCell key={`board-grid-cell-${rowIndex}-${colIndex}`} rowIndex={rowIndex} colIndex={colIndex} />
     })
-  }, [rowCount, colCount])
+  }, [totalRows, totalColumns])
 
   return (
-    <BoardSurface colCount={colCount} gameStatus={gameStatus} onContextMenu={(e) => e.preventDefault()}>
+    <BoardSurface totalColumns={totalColumns} gameStatus={gameStatus} onContextMenu={(e) => e.preventDefault()}>
       {renderCells}
     </BoardSurface>
   )

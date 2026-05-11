@@ -1,12 +1,12 @@
 import { GameStatus } from 'src/core/game'
 
 export interface MinefieldBoardGridProps {
-  rowCount: number
-  colCount: number
+  totalRows: number
+  totalColumns: number
   gameStatus: GameStatus
 }
 
 export interface BoardSurfaceProps {
-  colCount: number
+  totalColumns: number
   gameStatus: GameStatus
 }

@@ -7,9 +7,9 @@ const isMineCounterValue = (value: number): value is MineCounterValue => {
   return value >= 1 && value <= 8
 }
 
-export const injectMineCounters = (rowCount: number, colCount: number, minefield: MinefieldRecord): void => {
-  for (let row = 0; row < rowCount; row++) {
-    for (let col = 0; col < colCount; col++) {
+export const injectMineCounters = (totalRows: number, totalColumns: number, minefield: MinefieldRecord): void => {
+  for (let row = 0; row < totalRows; row++) {
+    for (let col = 0; col < totalColumns; col++) {
       const cellKey = coordsToCellKey(row, col)
 
       if (minefield[cellKey]['type'] !== CellType.MINE) {
@@ -19,7 +19,7 @@ export const injectMineCounters = (rowCount: number, colCount: number, minefield
           const nr = row + dr
           const nc = col + dc
 
-          if (nr >= 0 && nr < rowCount && nc >= 0 && nc < colCount) {
+          if (nr >= 0 && nr < totalRows && nc >= 0 && nc < totalColumns) {
             const neighborCellKey = coordsToCellKey(nr, nc)
 
             if (minefield[neighborCellKey]['type'] === CellType.MINE) {

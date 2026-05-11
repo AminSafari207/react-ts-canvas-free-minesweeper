@@ -7,8 +7,8 @@ import { MinefieldBoardGridSkeleton } from './MinefieldBoardGridSkeleton'
 import { ZoomPanPinchWrapper } from './ZoomPanPinchWrapper'
 
 export default function MinefieldBoard() {
-  const { rowCount, colCount, gameStatus } = useGameStore(
-    useShallow((s) => ({ rowCount: s.rowCount, colCount: s.colCount, gameStatus: s.gameStatus }))
+  const { totalRows, totalColumns, gameStatus } = useGameStore(
+    useShallow((s) => ({ totalRows: s.totalRows, totalColumns: s.totalColumns, gameStatus: s.gameStatus }))
   )
 
   if (gameStatus === GameStatus.LOADING) {
@@ -17,8 +17,8 @@ export default function MinefieldBoard() {
 
   return (
     <Box width="100vw" height="100vh">
-      <ZoomPanPinchWrapper rowCount={rowCount}>
-        <MinefieldBoardGrid rowCount={rowCount} colCount={colCount} gameStatus={gameStatus} />
+      <ZoomPanPinchWrapper totalRows={totalRows}>
+        <MinefieldBoardGrid totalRows={totalRows} totalColumns={totalColumns} gameStatus={gameStatus} />
       </ZoomPanPinchWrapper>
     </Box>
   )

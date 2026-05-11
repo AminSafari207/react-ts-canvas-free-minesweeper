@@ -25,8 +25,8 @@ export const SettingsBox = () => {
   )
   const closeModal = useModalStore(useShallow((s) => s.closeModal))
 
-  const [rows, setRows] = useState<number>(useGameStore.getState().rowCount)
-  const [cols, setCols] = useState<number>(useGameStore.getState().colCount)
+  const [rows, setRows] = useState<number>(useGameStore.getState().totalRows)
+  const [cols, setCols] = useState<number>(useGameStore.getState().totalColumns)
   const [mines, setMines] = useState<number>(useGameStore.getState().totalMines)
 
   const maxMines = useMemo(() => calculateMaxMine(rows, cols), [rows, cols])
@@ -42,7 +42,7 @@ export const SettingsBox = () => {
   }, [maxMines])
 
   const handlePlay = useCallback(() => {
-    applyGameConfig({ rowCount: rows, colCount: cols, totalMines: mines })
+    applyGameConfig({ totalRows: rows, totalColumns: cols, totalMines: mines })
     startNewGame()
     closeModal()
   }, [rows, cols, mines])
