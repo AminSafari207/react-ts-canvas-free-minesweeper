@@ -9,7 +9,7 @@ export const createBackgroundGrainientProps = (isDark: boolean): GrainientProps 
   color1: stripHexAlpha(isDark ? '#3a3e48' : '#b7c4df'),
   color2: stripHexAlpha(isDark ? '#5c677b' : '#8da3c7'),
   color3: stripHexAlpha(isDark ? '#4d5f7b' : '#76859d'),
-  timeSpeed: 0.35,
+  timeSpeed: 0.3,
   colorBalance: 0,
   grainAmount: 0.05,
   contrast: 1,

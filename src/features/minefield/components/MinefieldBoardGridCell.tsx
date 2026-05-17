@@ -1,113 +1,18 @@
-import { Box, styled } from '@mui/material'
-import { useCallback } from 'react'
-import { CellType, coordsToCellKey, MineCounterValue } from 'src/core/game'
-import {
-  CellBoxProps,
-  MineCounterDisplayProps,
-  MinefieldBoardGridCellProps,
-  MuiPaletteSection,
-  NonRevealedCellProps,
-} from 'src/features/minefield/types/MinefieldBoardGridCellTypes'
-import { minefieldUI } from 'src/shared/constants'
+import { CSSProperties, memo, useCallback, useMemo } from 'react'
+import { CellType, coordsToCellKey } from 'src/core/game'
+import { MinefieldBoardGridCellProps } from 'src/features/minefield/types/MinefieldBoardGridCellTypes'
 import { useGameStore } from 'src/shared/store'
-import { shouldForwardPropWithBlackList } from 'src/shared/utils'
-import { useShallow } from 'zustand/shallow'
+import { isIOS } from 'src/shared/utils'
 import { FlagWithAnimation } from './FlagWithAnimation'
 import { useCellLongPress } from './hooks/useCellLongPress'
 
-const COUNTER_COLORS = {
-  1: 'primary',
-  2: 'success',
-  3: 'error',
-  4: 'secondary',
-  5: 'warning',
-  6: 'info',
-  7: 'secondary',
-  8: 'error',
-} as const satisfies Record<MineCounterValue, MuiPaletteSection>
+const MinefieldBoardGridCell = memo(({ rowIndex, colIndex }: MinefieldBoardGridCellProps) => {
+  const cellKey = useMemo(() => coordsToCellKey(rowIndex, colIndex), [rowIndex, colIndex])
 
-const CellBox = styled(Box, {
-  shouldForwardProp: shouldForwardPropWithBlackList(['isRevealed', 'isExploded']),
-})<CellBoxProps>(({ theme, isRevealed, isExploded }) => {
-  const greyColor = theme.palette.grey
-  const isDark = theme.palette.mode === 'dark'
-  const boxShadow = isRevealed
-    ? `
-      inset 2px 2px 0px rgba(0, 0, 0, 0.5)
-    `
-    : `
-      inset 2px 2px 0px rgba(255, 255, 255, 0.15),
-      inset -2px -2px 0px rgba(0, 0, 0, 0.4)
-    `
+  const cellState = useGameStore((s) => s.cells[cellKey])
+  const cellStyles = useGameStore((s) => s.cellStyles)
 
-  let backgroundColor
-
-  if (isExploded) backgroundColor = theme.palette.error.main
-  else if (isRevealed) backgroundColor = isDark ? greyColor[700] : greyColor[300]
-  else backgroundColor = isDark ? greyColor[800] : greyColor[500]
-
-  return {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: minefieldUI.cellSize,
-    height: minefieldUI.cellSize,
-    userSelect: 'none',
-    backgroundColor,
-    boxShadow,
-  }
-})
-
-const ClickableBoxWrapper = styled(Box)({
-  cursor: 'pointer',
-})
-
-const NonRevealedCell = ({ onClick, onContextMenu, longPressHandlers, isFlagged }: NonRevealedCellProps) => {
-  return (
-    <ClickableBoxWrapper role="button" onClick={onClick} onContextMenu={onContextMenu} {...longPressHandlers}>
-      <CellBox isRevealed={false}>
-        <FlagWithAnimation visible={isFlagged} />
-      </CellBox>
-    </ClickableBoxWrapper>
-  )
-}
-
-const MineDisplay = styled(Box)(({ theme }) => {
-  const textShadowColor = theme.palette.grey[900]
-
-  return {
-    fontSize: '1.825rem',
-    color: 'inherit',
-    textShadow: `0px 1px 1px ${textShadowColor}`,
-  }
-})
-
-const MineCounterDisplay = styled(Box, { shouldForwardProp: shouldForwardPropWithBlackList(['value']) })<MineCounterDisplayProps>(({
-  theme,
-  value,
-}) => {
-  const fontColorShade = theme.palette.mode === 'dark' ? 'light' : 'dark'
-  const fontColor = value && COUNTER_COLORS[value] ? theme.palette[COUNTER_COLORS[value]][fontColorShade] : theme.palette.text.primary
-  const textShadowColor = theme.palette.grey[900]
-
-  return {
-    fontSize: '2.25rem',
-    fontWeight: 700,
-    color: fontColor,
-    textShadow: `0px 1px 1px ${textShadowColor}`,
-  }
-})
-
-export default function MinefieldBoardGridCell({ rowIndex, colIndex }: MinefieldBoardGridCellProps) {
-  const cellKey = coordsToCellKey(rowIndex, colIndex)
-
-  const { cellState, toggleFlagCell, revealCell } = useGameStore(
-    useShallow((s) => ({
-      cellState: s.cells[cellKey],
-      toggleFlagCell: s.toggleFlagCell,
-      revealCell: s.revealCellWithEffects,
-    }))
-  )
+  const { toggleFlagCell, revealCellWithEffects } = useGameStore.getState()
 
   const cellType = cellState?.type
   const isMine = cellType === CellType.MINE
@@ -115,14 +20,28 @@ export default function MinefieldBoardGridCell({ rowIndex, colIndex }: Minefield
   const isRevealed = Boolean(cellState?.isRevealed)
   const isFlagged = Boolean(cellState?.isFlagged)
   const isExploded = isMine && Boolean(cellState?.isExploded)
-  const counterValue = isMineCounter ? cellState.value : null
+  const counterValue = isMineCounter ? cellState.value : 0
 
-  const longPressHandlers = useCellLongPress(() => toggleFlagCell(cellKey), 200)
+  const styles: CSSProperties = useMemo(() => {
+    if (!isRevealed) {
+      return cellStyles.concealed
+    } else if (isExploded) {
+      return cellStyles.exploded
+    } else if (isMine) {
+      return cellStyles.mine
+    } else if (counterValue > 0) {
+      return cellStyles.mineCounters[counterValue]
+    } else {
+      return cellStyles.empty
+    }
+  }, [cellState, cellStyles])
+
+  const longPressHandlers = isIOS ? useCellLongPress(() => toggleFlagCell(cellKey), 200) : undefined
 
   const handleRevealCell = useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault()
-      revealCell(cellKey)
+      revealCellWithEffects(cellKey)
     },
     [cellKey]
   )
@@ -130,30 +49,21 @@ export default function MinefieldBoardGridCell({ rowIndex, colIndex }: Minefield
   const handleContextMenu = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
       e.preventDefault()
+
+      if (isRevealed) return
+
       toggleFlagCell(cellKey)
     },
-    [cellKey, toggleFlagCell]
+    [isRevealed, cellKey]
   )
-
-  const preventContextMenu = useCallback((e: React.MouseEvent) => {
-    e.preventDefault()
-  }, [])
-
-  if (!isRevealed) {
-    return (
-      <NonRevealedCell
-        isFlagged={isFlagged}
-        onClick={handleRevealCell}
-        onContextMenu={handleContextMenu}
-        longPressHandlers={longPressHandlers}
-      />
-    )
-  }
 
   return (
-    <CellBox isRevealed={isRevealed} isExploded={isExploded} onContextMenu={preventContextMenu}>
-      {isMine && <MineDisplay>💣</MineDisplay>}
-      {isMineCounter && <MineCounterDisplay value={counterValue}>{counterValue}</MineCounterDisplay>}
-    </CellBox>
+    <div style={styles} onClick={handleRevealCell} onContextMenu={handleContextMenu} {...longPressHandlers}>
+      {!isRevealed && isFlagged && <FlagWithAnimation visible={isFlagged} />}
+      {isRevealed && isMine && '💣'}
+      {isRevealed && isMineCounter && counterValue}
+    </div>
   )
-}
+})
+
+export default MinefieldBoardGridCell

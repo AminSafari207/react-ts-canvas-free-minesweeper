@@ -12,28 +12,6 @@ export const createGameplaySlice: StateCreator<GameStore, [], [], GameplaySlice>
   },
 
   startNewGame: () => {
-    // const { gameStatus } = get()
-
-    // if (gameStatus === GameStatus.LOADING) return
-
-    // set({ gameStatus: GameStatus.LOADING })
-
-    // setTimeout(() => {
-    //   const { totalRows, totalColumns, totalMines, resetTimer, startTimer } = get()
-    //   const { minefield, randomMineCellKeys, emptyRegions } = generateMinefield(totalRows, totalColumns, totalMines)
-
-    //   resetTimer()
-    //   set({
-    //     cells: minefield,
-    //     randomMineCellKeys,
-    //     emptyRegions,
-    //     revealedSafeCells: 0,
-    //     totalNonMineCells: Math.max(10, totalRows * totalColumns - totalMines),
-    //     gameStatus: GameStatus.PLAYING,
-    //   })
-    //   startTimer()
-    // }, 1000)
-
     const { gameStatus, totalRows, totalColumns, totalMines } = get()
 
     if (gameStatus === GameStatus.LOADING) return

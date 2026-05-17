@@ -1,11 +1,11 @@
 import { PropsWithChildren } from 'react'
 import { ModalHost } from 'src/core/modal'
 import { Theme } from 'src/core/theme'
-import { GameStatusEffectHost } from 'src/features/minefield'
+import { GameStatusEffectHost, MinefieldStylesEffectHost } from 'src/features/minefield'
 import { GlobalErrorBoundary } from 'src/shared/error-boundary'
 import { FullPageLoadingHost } from 'src/shared/loading'
 
-export const BasicProviders = ({ children, nonce }: PropsWithChildren<{ nonce?: string }>) => {
+export const BasicProviders = ({ children }: PropsWithChildren) => {
   return (
     <Theme>
       <GlobalErrorBoundary>
@@ -13,6 +13,7 @@ export const BasicProviders = ({ children, nonce }: PropsWithChildren<{ nonce?: 
         <ModalHost />
         <FullPageLoadingHost />
         <GameStatusEffectHost />
+        <MinefieldStylesEffectHost />
       </GlobalErrorBoundary>
     </Theme>
   )

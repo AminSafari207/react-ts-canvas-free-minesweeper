@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import { createBoardSlice } from './boardSlice'
+import { createCellStyleSlice } from './cellStyleSlice'
 import { createConfigSlice } from './configSlice'
 import { createGameplaySlice } from './gameplaySlice'
 import { createTimerSlice } from './timerSlice'
@@ -13,6 +14,7 @@ export const useGameStore = create<GameStore>()(
       ...createGameplaySlice(...a),
       ...createBoardSlice(...a),
       ...createTimerSlice(...a),
+      ...createCellStyleSlice(...a),
     }),
     {
       name: 'game-store',

@@ -1,4 +1,5 @@
 import { Box, Skeleton, styled } from '@mui/material'
+import { memo } from 'react'
 
 const CELL_COUNT = 16
 
@@ -21,7 +22,7 @@ const Cell = styled(Box)(({ theme }) => ({
   visibility: 'visible',
 }))
 
-export const MinefieldBoardGridSkeleton = () => {
+export const MinefieldBoardGridSkeleton = memo(() => {
   return (
     <Board variant="rectangular">
       {Array.from({ length: CELL_COUNT * CELL_COUNT }).map((_, i) => (
@@ -29,4 +30,4 @@ export const MinefieldBoardGridSkeleton = () => {
       ))}
     </Board>
   )
-}
+})
