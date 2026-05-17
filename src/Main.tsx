@@ -1,7 +1,10 @@
 import ReactDOM from 'react-dom/client'
 import { App } from './App'
+import { bootstrapWorkers } from './workers'
 
-const rootEl = document.getElementById('root') as HTMLElement
+bootstrapWorkers()
+
+const rootEl = document.getElementById('root')! as HTMLElement
 
 if (!rootEl) throw new Error('Root element #root not found')
 
