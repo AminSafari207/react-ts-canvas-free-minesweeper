@@ -1,7 +1,6 @@
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { Button, Slider, Stack, Typography } from '@mui/material'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { minefieldLimits } from 'src/shared/constants'
 import { useGameStore, useModalStore } from 'src/shared/store'
 import { useShallow } from 'zustand/shallow'
 import { SliderConfig } from '../types/GameSettingsIconButtonTypes'
@@ -53,18 +52,24 @@ export const SettingsBox = () => {
         <VerticalSlider
           value={rows}
           label="Rows"
-          min={minefieldLimits.dimensions.rows.min}
-          max={minefieldLimits.dimensions.rows.max}
+          min={minefieldConfig.limits.dimensions.rows.min}
+          max={minefieldConfig.limits.dimensions.rows.max}
           onChange={handleChangeRows}
         />
         <VerticalSlider
           value={cols}
           label="Cols"
-          min={minefieldLimits.dimensions.cols.min}
-          max={minefieldLimits.dimensions.cols.max}
+          min={minefieldConfig.limits.dimensions.cols.min}
+          max={minefieldConfig.limits.dimensions.cols.max}
           onChange={handleChangeCols}
         />
-        <VerticalSlider value={mines} label="Mines" min={minefieldLimits.mines.count.min} max={maxMines} onChange={handleChangeMines} />
+        <VerticalSlider
+          value={mines}
+          label="Mines"
+          min={minefieldConfig.limits.mines.count.min}
+          max={maxMines}
+          onChange={handleChangeMines}
+        />
       </Stack>
       <Stack direction="row" spacing={1} maxHeight={40}>
         <Button variant="contained" color="error" onClick={closeModal}>

@@ -15,9 +15,12 @@ export enum GameStatus {
 
 export type MineCounterValue = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
 
+export type FlagAnimPhase = 'idle' | 'out'
+
 export interface BaseCell {
   isRevealed: boolean
   isFlagged: boolean
+  flagAnimPhase: FlagAnimPhase
 }
 
 export interface EmptyCell extends BaseCell {

@@ -1,4 +1,5 @@
 import { MinefieldRecord } from 'src/core/game'
+import { minefieldConfig } from 'src/shared/constants'
 import { StateCreator } from 'zustand'
 import { BoardSlice } from './types/boardSliceTypes'
 import { GameStore } from './types/gameStoreTypes'
@@ -109,7 +110,33 @@ export const createBoardSlice: StateCreator<GameStore, [], [], BoardSlice> = (se
   },
 
   toggleFlagCell: (cellKey) => {
-    set((s) => ({ cells: { ...s.cells, [cellKey]: { ...s.cells[cellKey], isFlagged: !s.cells[cellKey].isFlagged } } }))
+    const cell = get().cells[cellKey]
+
+    if (!cell || cell.isRevealed) return
+
+    if (cell.isFlagged) {
+      set((s) => ({
+        cells: { ...s.cells, [cellKey]: { ...s.cells[cellKey], isFlagged: false, flagAnimPhase: 'out' } },
+      }))
+
+      window.setTimeout(() => {
+        const currentCell = get().cells[cellKey]
+
+        if (!currentCell) return
+        if (currentCell.isFlagged) return
+        if (currentCell.flagAnimPhase !== 'out') return
+
+        set((s) => ({
+          cells: { ...s.cells, [cellKey]: { ...s.cells[cellKey], flagAnimPhase: 'idle' } },
+        }))
+      }, minefieldConfig.ui.flag.animation.outMs)
+
+      return
+    }
+
+    set((s) => ({
+      cells: { ...s.cells, [cellKey]: { ...s.cells[cellKey], isFlagged: true, flagAnimPhase: 'idle' } },
+    }))
   },
 
   hasWon: () => {

@@ -6,6 +6,7 @@ export { CellType, GameStatus } from './types/types'
 export type {
   CellKey,
   EmptyCell,
+  FlagAnimPhase,
   MineCell,
   MineCounterCell,
   MineCounterValue,

@@ -15,6 +15,7 @@ type CellInput = {
 const defaultBaseCellProps: BaseCell = {
   isRevealed: false,
   isFlagged: false,
+  flagAnimPhase: 'idle',
 }
 
 export const buildCell = (input: CellInput): CellsByType[typeof input.type] => {

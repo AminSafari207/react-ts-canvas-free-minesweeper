@@ -1,4 +1,5 @@
 export { useGameStore } from './game/gameStore'
+export type { MinefieldCellStyles } from './game/types/cellStyleSliceTypes'
 export type { GameStore } from './game/types/gameStoreTypes'
 export type {
   FullPageLoadingOptions,

@@ -1,2 +1,1 @@
-export { minefieldLimits } from './game'
-export { minefieldUI } from './ui'
+export { minefieldConfig } from './game'

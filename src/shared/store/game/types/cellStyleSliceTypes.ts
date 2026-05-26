@@ -1,7 +1,7 @@
 import { Theme } from '@mui/material'
 import { CSSProperties } from 'react'
 
-type MinefieldCellStyles = {
+export type MinefieldCellStyles = {
   concealed: CSSProperties
   exploded: CSSProperties
   mine: CSSProperties

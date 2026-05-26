@@ -1,9 +1,9 @@
-import { minefieldUI } from 'src/shared/constants'
+import { minefieldConfig } from 'src/shared/constants'
 import { StateCreator } from 'zustand'
 import { CellStyleSlice } from './types/cellStyleSliceTypes'
 import { GameStore } from './types/gameStoreTypes'
 
-const CELL_SIZE = minefieldUI.cellSize
+const CELL_SIZE = minefieldConfig.ui.cellSize
 
 export const createCellStyleSlice: StateCreator<GameStore, [], [], CellStyleSlice> = (set, get) => ({
   cellStyles: {
@@ -24,9 +24,11 @@ export const createCellStyleSlice: StateCreator<GameStore, [], [], CellStyleSlic
       width: `${CELL_SIZE}px`,
       height: `${CELL_SIZE}px`,
       display: 'flex',
+      position: 'relative',
       alignItems: 'center',
       justifyContent: 'center',
-      contain: 'layout style paint',
+      overflow: 'visible',
+      contain: 'style',
     } as const
 
     const concealed = {

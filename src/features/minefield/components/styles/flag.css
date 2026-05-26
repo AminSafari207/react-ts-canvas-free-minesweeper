@@ -1,0 +1,51 @@
+.flagContainer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 999;
+}
+
+.flagIcon {
+  font-size: 1.5rem;
+  line-height: 1;
+  filter: drop-shadow(0 1px 1.25px rgba(0, 0, 0, 0.55));
+  transform-origin: center;
+  will-change: transform, opacity;
+  overflow: visible;
+}
+
+.flagVisible .flagIcon {
+  animation: flagIn 220ms cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+}
+
+.flagHidden .flagIcon {
+  animation: flagOut 180ms ease-in forwards;
+  opacity: 0;
+  transform: translateY(-10px) scale(3.5);
+}
+
+@keyframes flagIn {
+  0% {
+    transform: translateY(10px) scale(5.5);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes flagOut {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(5.5);
+    opacity: 0;
+  }
+}

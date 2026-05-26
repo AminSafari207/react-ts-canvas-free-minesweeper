@@ -1,7 +1,8 @@
 import { JSX, useEffect, useRef } from 'react'
+import { useGameStore } from 'src/shared/store'
 import { useChunkedMount } from 'src/shared/utils'
-import { UseStreamingCellsOptions, UseStreamingCellsReturn } from '../../types/useStreamingCellsTypes'
 import MinefieldBoardGridCell from '../MinefieldBoardGridCell'
+import { UseStreamingCellsOptions, UseStreamingCellsReturn } from '../types/useStreamingCellsTypes'
 
 export const useStreamingCells = ({ totalRows, totalColumns, chunkSize }: UseStreamingCellsOptions): UseStreamingCellsReturn => {
   const totalCells = totalRows * totalColumns
@@ -10,6 +11,8 @@ export const useStreamingCells = ({ totalRows, totalColumns, chunkSize }: UseStr
     totalItems: totalCells,
     chunkSize,
   })
+
+  const cellStyles = useGameStore((s) => s.cellStyles)
 
   const cellsRef = useRef<JSX.Element[]>([])
 
@@ -24,7 +27,11 @@ export const useStreamingCells = ({ totalRows, totalColumns, chunkSize }: UseStr
     let colIndex = start % totalColumns
 
     for (let i = start; i < visibleCount; i++) {
-      cellsRef.current.push(<MinefieldBoardGridCell key={`cell-${rowIndex}-${colIndex}`} rowIndex={rowIndex} colIndex={colIndex} />)
+      console.log('cell-' + rowIndex + '-' + colIndex)
+
+      cellsRef.current.push(
+        <MinefieldBoardGridCell key={`cell-${rowIndex}-${colIndex}`} rowIndex={rowIndex} colIndex={colIndex} cellStyles={cellStyles} />
+      )
 
       colIndex++
 

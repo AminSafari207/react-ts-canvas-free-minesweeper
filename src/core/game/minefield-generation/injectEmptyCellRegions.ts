@@ -1,4 +1,4 @@
-import { minefieldLimits } from 'src/shared/constants'
+import { minefieldConfig } from 'src/shared/constants'
 import { createBitmap } from 'src/shared/utils'
 import { coordsToCellKey } from '../cellCordinates'
 import { NEIGHBOR_OFFSETS } from '../gridNeighbors'
@@ -9,8 +9,8 @@ const DEFAULT_EMPTY_REGION_STATE: Pick<EmptyRegion, 'isRevealed'> = {
   isRevealed: false,
 } as const
 
-const MAX_ROWS = minefieldLimits.dimensions.rows.max
-const MAX_COLS = minefieldLimits.dimensions.cols.max
+const MAX_ROWS = minefieldConfig.limits.dimensions.rows.max
+const MAX_COLS = minefieldConfig.limits.dimensions.cols.max
 const MAX_CELLS = MAX_ROWS * MAX_COLS
 
 const visited = createBitmap(MAX_CELLS)
