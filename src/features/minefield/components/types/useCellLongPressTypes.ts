@@ -6,3 +6,10 @@ export interface LongPressHanlders {
   onPointerLeave: () => void
   onClickCapture: (e: React.MouseEvent) => void
 }
+
+export type UseCellLongPresOptions = {
+  delay?: number
+  disabled?: boolean
+}
+
+export type UseCellLongPress = (onLongPress: () => void, options?: UseCellLongPresOptions) => LongPressHanlders | undefined

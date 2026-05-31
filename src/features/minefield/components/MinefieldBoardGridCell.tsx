@@ -30,7 +30,7 @@ const MinefieldBoardGridCell = memo(({ rowIndex, colIndex, cellStyles }: Minefie
     return cellStyles.empty
   }, [cellState, cellStyles])
 
-  const longPressHandlers = isIOS() ? useCellLongPress(() => toggleFlagCell(cellKey), 200) : undefined
+  const longPressHandlers = useCellLongPress(() => toggleFlagCell(cellKey), { delay: 200, disabled: !isIOS() })
 
   const handleRevealCell = useCallback(
     (e: React.MouseEvent) => {

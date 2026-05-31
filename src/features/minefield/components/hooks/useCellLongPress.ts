@@ -1,9 +1,13 @@
 import { useMemo, useRef } from 'react'
-import { LongPressHanlders } from 'src/features/minefield/components/types/useCellLongPressTypes'
+import { LongPressHanlders, UseCellLongPress } from '../types/useCellLongPressTypes'
 
 const MOVE_THRESHOLD = 4
 
-export const useCellLongPress = (onLongPress: () => void, delay = 450): LongPressHanlders => {
+export const useCellLongPress: UseCellLongPress = (onLongPress: () => void, options) => {
+  if (options?.disabled) return undefined
+
+  const delay = options?.delay ?? 250
+
   const timerRef = useRef<number | null>(null)
   const triggeredRef = useRef(false)
   const startRef = useRef<{ x: number; y: number } | null>(null)
