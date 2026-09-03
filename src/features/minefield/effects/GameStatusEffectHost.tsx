@@ -6,10 +6,10 @@ import { useGameStore, useModalStore } from 'src/shared/store'
 import { useShallow } from 'zustand/shallow'
 
 export const GameStatusEffectHost = () => {
-  const { gameStatus, startNewGame } = useGameStore(
+  const { gameStatus, restartGame } = useGameStore(
     useShallow((s) => ({
       gameStatus: s.gameStatus,
-      startNewGame: s.startNewGame,
+      restartGame: s.restartGame,
     }))
   )
   const { showSimpleModal, closeModal } = useModalStore(
@@ -20,7 +20,7 @@ export const GameStatusEffectHost = () => {
   )
 
   const handleRestartClick = useCallback(() => {
-    startNewGame()
+    restartGame()
     closeModal()
   }, [])
 

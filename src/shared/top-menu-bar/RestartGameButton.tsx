@@ -4,10 +4,10 @@ import { useGameStore } from 'src/shared/store'
 import { useShallow } from 'zustand/shallow'
 
 export const RestartGameButton = () => {
-  const startNewGame = useGameStore(useShallow((s) => s.startNewGame))
+  const restartGame = useGameStore(useShallow((s) => s.restartGame))
 
   return (
-    <IconButton disableFocusRipple disableRipple disableTouchRipple size="small" sx={{ p: 0 }} onClick={startNewGame}>
+    <IconButton disableFocusRipple disableRipple disableTouchRipple size="small" sx={{ p: 0 }} onClick={restartGame}>
       <RefreshRoundedIcon fontSize="large" />
     </IconButton>
   )

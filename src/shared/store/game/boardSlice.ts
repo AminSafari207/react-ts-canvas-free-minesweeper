@@ -4,18 +4,27 @@ import { StateCreator } from 'zustand'
 import { BoardSlice } from './types/boardSliceTypes'
 import { GameStore } from './types/gameStoreTypes'
 
-export const createBoardSlice: StateCreator<GameStore, [], [], BoardSlice> = (set, get) => ({
+export const boardSliceStateDefaults = {
   cells: {},
   randomMineCellKeys: [],
   emptyRegions: [],
   revealedSafeCells: 0,
   totalNonMineCells: 0,
+  boardSessionId: 0,
+  queuedMinefield: null,
+} satisfies Pick<
+  BoardSlice,
+  'cells' | 'randomMineCellKeys' | 'emptyRegions' | 'revealedSafeCells' | 'totalNonMineCells' | 'boardSessionId' | 'queuedMinefield'
+>
+
+export const createBoardSlice: StateCreator<GameStore, [], [], BoardSlice> = (set, get) => ({
+  ...boardSliceStateDefaults,
 
   revealCell: (cellKey) => {
     set((s) => {
       const cellState = s.cells[cellKey]
 
-      if (cellState.isRevealed || cellState.isFlagged) return s
+      if (!cellState || cellState.isRevealed || cellState.isFlagged) return s
 
       return {
         cells: { ...s.cells, [cellKey]: { ...s.cells[cellKey], isRevealed: true } },
@@ -101,7 +110,7 @@ export const createBoardSlice: StateCreator<GameStore, [], [], BoardSlice> = (se
     set((s) => {
       const cellState = s.cells[cellKey]
 
-      if (cellState.isRevealed) return s
+      if (!cellState || cellState.isRevealed) return s
 
       return {
         cells: { ...s.cells, [cellKey]: { ...s.cells[cellKey], isRevealed: true, isExploded: true } },

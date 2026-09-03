@@ -4,5 +4,4 @@ export interface TimerSlice {
   startTimer: () => void
   stopTimer: () => void
   resetTimer: () => void
-  tick: () => void
 }

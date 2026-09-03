@@ -1,21 +1,21 @@
 import { styled } from '@mui/material'
+import { useEffect } from 'react'
 import { GameStatus } from 'src/core/game'
 import { BoardSurfaceProps, MinefieldBoardGridProps } from 'src/features/minefield/components/types/MinefieldBoardGridTypes'
 import { minefieldConfig } from 'src/shared/constants'
-import { FullPageLoading } from 'src/shared/loading'
 import { GlassyPaper } from 'src/shared/paper'
 import { shouldForwardPropWithBlackList } from 'src/shared/utils'
 import MinefieldBoardGridCell from './MinefieldBoardGridCell'
 import { useChunkedCells } from './hooks/useChunkedCells'
 
+type BoardLayerProps = MinefieldBoardGridProps & {
+  sessionId: number
+  mode: 'visible' | 'staged'
+  onReady?: () => void
+}
+
 const CELL_SIZE = minefieldConfig.ui.cellSize
 const BOARD_BORDER_LINE_WIDTH_PX = 16
-
-const BoardContainer = styled('div')({
-  position: 'relative',
-  width: 'fit-content',
-  height: 'fit-content',
-})
 
 const BoardSurface = styled(GlassyPaper, {
   shouldForwardProp: shouldForwardPropWithBlackList(['totalRows', 'totalColumns', 'gameStatus', 'isFullyMounted']),
@@ -37,28 +37,41 @@ const BoardSurface = styled(GlassyPaper, {
   }
 })
 
-export default function MinefieldBoardGrid({ totalRows, totalColumns, gameStatus, cellStyles }: MinefieldBoardGridProps) {
-  const shouldChunkRender = gameStatus === GameStatus.LOADING
+export const BoardLayer = ({ totalRows, totalColumns, gameStatus, cellStyles, mode, onReady }: BoardLayerProps) => {
+  const shouldChunkRender = mode === 'staged'
 
-  const { visibleCells, isFullyMounted } = useChunkedCells({ totalRows, totalColumns, enabled: shouldChunkRender })
+  const { visibleCells, isFullyMounted } = useChunkedCells({
+    totalRows,
+    totalColumns,
+    enabled: shouldChunkRender,
+  })
 
-  const isLoadingVisible = gameStatus === GameStatus.LOADING ? 'visible' : 'hidden'
+  useEffect(() => {
+    if (mode === 'staged' && isFullyMounted) {
+      onReady?.()
+    }
+  }, [mode, isFullyMounted, onReady])
 
   return (
-    <BoardContainer>
-      <BoardSurface
-        totalRows={totalRows}
-        totalColumns={totalColumns}
-        gameStatus={gameStatus}
-        isFullyMounted={isFullyMounted}
-        onContextMenu={(e) => e.preventDefault()}
-      >
-        {visibleCells.map(([rowIndex, colIndex]) => (
-          <MinefieldBoardGridCell key={`cell-${rowIndex}-${colIndex}`} rowIndex={rowIndex} colIndex={colIndex} cellStyles={cellStyles} />
-        ))}
-      </BoardSurface>
-
-      <FullPageLoading visibility={isLoadingVisible} options={{ backdrop: { kind: 'blur' } }} message="Generating new board..." />
-    </BoardContainer>
+    <BoardSurface
+      totalRows={totalRows}
+      totalColumns={totalColumns}
+      gameStatus={gameStatus}
+      isFullyMounted={isFullyMounted}
+      style={
+        mode === 'staged'
+          ? {
+              position: 'absolute',
+              inset: 0,
+              visibility: 'hidden',
+              pointerEvents: 'none',
+            }
+          : undefined
+      }
+    >
+      {visibleCells.map(([rowIndex, colIndex]) => (
+        <MinefieldBoardGridCell key={`cell-${rowIndex}-${colIndex}`} rowIndex={rowIndex} colIndex={colIndex} cellStyles={cellStyles} />
+      ))}
+    </BoardSurface>
   )
 }

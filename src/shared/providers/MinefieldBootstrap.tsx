@@ -4,7 +4,7 @@ import { useGameStore } from 'src/shared/store'
 export const MinefieldBootstrap = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     const game = useGameStore.getState()
-    game.startNewGame()
+    game.startInitialGame()
   }, [])
 
   return children

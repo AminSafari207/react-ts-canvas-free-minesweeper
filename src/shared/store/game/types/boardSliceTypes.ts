@@ -1,11 +1,16 @@
 import { CellKey, EmptyRegions, MinefieldRecord } from 'src/core/game'
 
-export interface BoardSlice {
+type MiefieldState = {
   cells: MinefieldRecord
   randomMineCellKeys: CellKey[]
   emptyRegions: EmptyRegions
+}
+
+export type BoardSlice = MiefieldState & {
   revealedSafeCells: number
   totalNonMineCells: number
+  boardSessionId: number
+  queuedMinefield: MiefieldState | null
 
   revealCell: (cellKey: CellKey) => void
   revealMultipleCells: (cellKeys: CellKey[]) => void

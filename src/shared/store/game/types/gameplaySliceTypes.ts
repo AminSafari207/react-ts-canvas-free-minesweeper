@@ -4,7 +4,10 @@ export interface GameplaySlice {
   gameStatus: GameStatus
 
   changeGameStatus: (newGameStatus: GameStatus) => void
-  startNewGame: () => void
+  startInitialGame: () => void
+  restartGame: () => void
   pauseGame: () => void
+  prepareQueuedMinefield: () => void
+  handleDimensionChange: () => void
   revealCellWithEffects: (cellKey: CellKey) => void
 }

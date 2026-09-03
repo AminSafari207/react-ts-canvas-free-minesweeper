@@ -5,10 +5,10 @@ import { injectMineCounters } from './injectMineCounters'
 import { injectRandomMines } from './injectRandomMines'
 
 export const generateMinefield = (totalRows = 3, totalColumns = 3, totalMines = 3): GeneratedMinefieldRecord => {
-  const minefield = generateEmptyMinefield(totalRows, totalColumns)
-  const randomMineCellKeys = injectRandomMines(totalRows, totalColumns, totalMines, minefield)
-  injectMineCounters(totalRows, totalColumns, minefield)
-  const emptyRegions = injectEmptyCellRegions(totalRows, totalColumns, minefield)
+  const cells = generateEmptyMinefield(totalRows, totalColumns)
+  const randomMineCellKeys = injectRandomMines(totalRows, totalColumns, totalMines, cells)
+  injectMineCounters(totalRows, totalColumns, cells)
+  const emptyRegions = injectEmptyCellRegions(totalRows, totalColumns, cells)
 
-  return { minefield, randomMineCellKeys, emptyRegions }
+  return { cells, randomMineCellKeys, emptyRegions }
 }

@@ -1,13 +1,17 @@
+import { minefieldConfig } from 'src/shared/constants'
 import { StateCreator } from 'zustand'
 import { ConfigSlice } from './types/configSliceTypes'
 import { GameStore } from './types/gameStoreTypes'
-import { minefieldConfig } from 'src/shared/constants'
 
-export const createConfigSlice: StateCreator<GameStore, [], [], ConfigSlice> = (set) => ({
+export const configSliceStateDefaults = {
   totalRows: minefieldConfig.limits.dimensions.rows.min,
   totalColumns: minefieldConfig.limits.dimensions.cols.min,
   totalMines: minefieldConfig.limits.mines.count.min,
   flagLimit: -1, // TODO
+} satisfies Pick<ConfigSlice, 'totalRows' | 'totalColumns' | 'totalMines' | 'flagLimit'>
+
+export const createConfigSlice: StateCreator<GameStore, [], [], ConfigSlice> = (set) => ({
+  ...configSliceStateDefaults,
 
   applyGameConfig: (options) => {
     if (!options || Object.keys(options).length === 0) {

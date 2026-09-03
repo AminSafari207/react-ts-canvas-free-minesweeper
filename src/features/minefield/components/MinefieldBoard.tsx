@@ -1,27 +1,25 @@
 import { Box } from '@mui/material'
-import { GameStatus } from 'src/core/game'
 import { useGameStore } from 'src/shared/store'
 import { useShallow } from 'zustand/shallow'
-import { useStreamingCells } from './hooks/useStreamingCells'
-import MinefieldBoardGrid from './MinefieldBoardGrid'
-import { MinefieldBoardGridSkeleton } from './MinefieldBoardGridSkeleton'
+import { MinefieldBoardStage } from './MinefieldBoardStage'
 import { ZoomPanPinchWrapper } from './ZoomPanPinchWrapper'
 
 export default function MinefieldBoard() {
-  const { totalRows, totalColumns, gameStatus } = useGameStore(
-    useShallow((s) => ({ totalRows: s.totalRows, totalColumns: s.totalColumns, gameStatus: s.gameStatus }))
+  const { totalRows, totalColumns, gameStatus, cellStyles, boardSessionId } = useGameStore(
+    useShallow((s) => ({
+      totalRows: s.totalRows,
+      totalColumns: s.totalColumns,
+      gameStatus: s.gameStatus,
+      cellStyles: s.cellStyles,
+      boardSessionId: s.boardSessionId,
+    }))
   )
-
-  const { renderedCells, isReadyToMount } = useStreamingCells({ totalRows, totalColumns })
-
-  if (gameStatus === GameStatus.LOADING || !isReadyToMount) {
-    return <MinefieldBoardGridSkeleton />
-  }
 
   return (
     <Box width="100vw" height="100vh">
-      <ZoomPanPinchWrapper totalRows={totalRows}>
-        <MinefieldBoardGrid totalRows={totalRows} totalColumns={totalColumns} gameStatus={gameStatus} renderedCells={renderedCells} />
+      <ZoomPanPinchWrapper totalRows={totalRows} boardSessionId={boardSessionId}>
+        {/* <MinefieldBoardGrid totalRows={totalRows} totalColumns={totalColumns} gameStatus={gameStatus} cellStyles={cellStyles} /> */}
+        <MinefieldBoardStage totalRows={totalRows} totalColumns={totalColumns} gameStatus={gameStatus} cellStyles={cellStyles} />
       </ZoomPanPinchWrapper>
     </Box>
   )

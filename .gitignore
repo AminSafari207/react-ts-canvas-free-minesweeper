@@ -4,6 +4,7 @@ locales
 out
 dist
 _deprecateds
+.obsidian
 
 # Files
 .env

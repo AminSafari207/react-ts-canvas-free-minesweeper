@@ -11,7 +11,6 @@ export interface GenerateMinefieldRequest {
   totalRows: number
   totalColumns: number
   totalMines: number
-  seed?: number // TODO
 }
 
 export type GenerateMinefieldResponse = GeneratedMinefieldRecord

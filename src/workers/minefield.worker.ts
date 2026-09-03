@@ -10,15 +10,9 @@ const handleGenerate = (event: MinefieldMessageEventEnvelope) => {
   try {
     const generatedMinefield = generateMinefield(payload.totalRows, payload.totalColumns, payload.totalMines)
 
-    const response: GenerateMinefieldResponse = {
-      minefield: generatedMinefield.minefield,
-      randomMineCellKeys: generatedMinefield.randomMineCellKeys,
-      emptyRegions: generatedMinefield.emptyRegions,
-    }
-
     const envelope: WorkerResponseEnvelope<GenerateMinefieldResponse> = {
       requestId,
-      payload: response,
+      payload: generatedMinefield,
     }
 
     self.postMessage(envelope)

@@ -4,6 +4,7 @@ export type { GeneratedMinefieldRecord } from './types/generateMinefieldTypes'
 export type { EmptyRegions } from './types/injectEmptyCellRegionsTypes'
 export { CellType, GameStatus } from './types/types'
 export type {
+  CellCoordinates,
   CellKey,
   EmptyCell,
   FlagAnimPhase,

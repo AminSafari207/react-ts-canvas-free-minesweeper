@@ -49,6 +49,10 @@ const MinefieldBoardGridCell = memo(({ rowIndex, colIndex, cellStyles }: Minefie
     [isRevealed, cellKey]
   )
 
+  if (!cellState) {
+    return <div style={cellStyles.concealed} />
+  }
+
   return (
     <div style={styles} onClick={handleRevealCell} onContextMenu={handleContextMenu} {...longPressHandlers}>
       {!isRevealed && <CellFlag isFlagged={cellState.isFlagged} flagAnimPhase={cellState.flagAnimPhase} />}

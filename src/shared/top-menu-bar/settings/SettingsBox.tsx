@@ -1,6 +1,7 @@
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded'
 import { Button, Slider, Stack, Typography } from '@mui/material'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { minefieldConfig } from 'src/shared/constants'
 import { useGameStore, useModalStore } from 'src/shared/store'
 import { useShallow } from 'zustand/shallow'
 import { SliderConfig } from '../types/GameSettingsIconButtonTypes'
@@ -19,8 +20,8 @@ const VerticalSlider = ({ value, label, min, max, onChange }: SliderConfig) => (
 )
 
 export const SettingsBox = () => {
-  const { applyGameConfig, startNewGame } = useGameStore(
-    useShallow((s) => ({ applyGameConfig: s.applyGameConfig, startNewGame: s.startNewGame }))
+  const { applyGameConfig, handleDimensionChange } = useGameStore(
+    useShallow((s) => ({ applyGameConfig: s.applyGameConfig, handleDimensionChange: s.handleDimensionChange }))
   )
   const closeModal = useModalStore(useShallow((s) => s.closeModal))
 
@@ -40,9 +41,9 @@ export const SettingsBox = () => {
     }
   }, [maxMines])
 
-  const handlePlay = useCallback(() => {
+  const applySettingsAndRestart = useCallback(() => {
     applyGameConfig({ totalRows: rows, totalColumns: cols, totalMines: mines })
-    startNewGame()
+    handleDimensionChange()
     closeModal()
   }, [rows, cols, mines])
 
@@ -75,7 +76,7 @@ export const SettingsBox = () => {
         <Button variant="contained" color="error" onClick={closeModal}>
           <CloseRoundedIcon fontSize="large" />
         </Button>
-        <Button variant="contained" color="primary" size="large" sx={{ fontSize: 22 }} onClick={handlePlay}>
+        <Button variant="contained" color="primary" size="large" sx={{ fontSize: 22 }} onClick={applySettingsAndRestart}>
           Start
         </Button>
       </Stack>

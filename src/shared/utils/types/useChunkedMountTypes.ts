@@ -1,9 +1,10 @@
 export type UseChunkedMountOptions = {
   totalItems: number
   chunkSize?: number
+  enabled?: boolean
 }
 
 export type UseChunkedMountReturn = {
-  visibleCount: number
-  isReadyToMount: boolean
+  mountedCount: number
+  isFullyMounted: boolean
 }

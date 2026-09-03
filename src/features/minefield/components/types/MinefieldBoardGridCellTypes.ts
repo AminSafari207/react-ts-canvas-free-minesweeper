@@ -1,8 +1,8 @@
 import { Palette } from '@mui/material'
 import { MineCounterValue } from 'src/core/game'
+import { MinefieldCellStyles } from 'src/shared/store'
 import { CellClickHandler } from './revealHandlerTypes'
 import { LongPressHanlders } from './useCellLongPressTypes'
-import { MinefieldCellStyles } from 'src/shared/store'
 
 export type GetMineCounterColor = (value: MineCounterValue | null) => string
 

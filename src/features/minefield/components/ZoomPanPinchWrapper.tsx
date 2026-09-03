@@ -8,7 +8,7 @@ const MAX_ZOOM = 2.0
 const VERTICAL_MARGIN = 120
 const MOVE_THRESHOLD = 4
 
-export const ZoomPanPinchWrapper = ({ children, totalRows }: ZoomPanPinchWrapperProps) => {
+export const ZoomPanPinchWrapper = ({ children, totalRows, boardSessionId }: ZoomPanPinchWrapperProps) => {
   const transformRef = useRef<ReactZoomPanPinchRef | null>(null)
   const boardRef = useRef<HTMLDivElement | null>(null)
 
@@ -18,6 +18,12 @@ export const ZoomPanPinchWrapper = ({ children, totalRows }: ZoomPanPinchWrapper
   const [initialScale, setInitialScale] = useState<number | null>(null)
 
   useLayoutEffect(() => {
+    setInitialScale(null)
+  }, [boardSessionId])
+
+  useLayoutEffect(() => {
+    if (initialScale !== null) return
+
     const el = boardRef.current
 
     if (!el) return
@@ -29,16 +35,11 @@ export const ZoomPanPinchWrapper = ({ children, totalRows }: ZoomPanPinchWrapper
     const availableW = vw
     const availableH = vh - 2 * VERTICAL_MARGIN
 
-    let initialScale: number
+    const nextScale =
+      boardW <= vw && totalRows <= 12 ? 1.1 : Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, Math.min(availableW / boardW, availableH / boardH)))
 
-    if (boardW <= vw && totalRows <= 12) {
-      initialScale = 1.1
-    } else {
-      initialScale = Math.max(MIN_ZOOM, Math.min(MAX_ZOOM, Math.min(availableW / boardW, availableH / boardH)))
-    }
-
-    setInitialScale(initialScale)
-  }, [])
+    setInitialScale(nextScale)
+  }, [initialScale, boardSessionId, totalRows, children])
 
   const memoChildren = useMemo(() => children, [children])
 
@@ -60,6 +61,7 @@ export const ZoomPanPinchWrapper = ({ children, totalRows }: ZoomPanPinchWrapper
 
   return (
     <TransformWrapper
+      key={boardSessionId}
       ref={transformRef}
       minScale={MIN_ZOOM}
       maxScale={MAX_ZOOM}
